@@ -20,8 +20,9 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2563eb">
 
-    <!-- FFMPEG v0.11.6 UMD SCRIPT -->
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <!-- FFMPEG v0.12.10 UMD SCRIPT (TANPA IMPORTMAP) -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+    <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
     
     <!-- Data Terstruktur untuk Mesin Pencari Global & SEO -->
     <script type="application/ld+json">
@@ -312,82 +313,6 @@
                 <button onclick="document.getElementById('file-input').click()" class="w-full py-3.5 border-2 border-dashed border-blue-200 text-brand-blue rounded-xl font-medium text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 mb-4">
                     <i class="fas fa-plus"></i> <span data-i18n="addMoreBtn">Tambah Video Lain</span>
                 </button>
-
-                <!-- PENGATURAN RASIO & KUALITAS VIDEO -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    <!-- PILIHAN RASIO VIDEO -->
-                    <div class="bg-gradient-to-br from-blue-50/60 to-purple-50/60 p-4 rounded-2xl border border-blue-100/80 shadow-sm">
-                        <label class="block text-xs font-bold text-brand-navy mb-2.5 flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-lg gradient-bg text-white flex items-center justify-center text-[11px] shadow-sm">
-                                <i class="fas fa-expand"></i>
-                            </div>
-                            <span data-i18n="ratioLabel">Rasio Video:</span>
-                        </label>
-                        <div class="grid grid-cols-4 gap-1.5">
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="aspect-ratio" value="original" checked class="peer sr-only">
-                                <div class="text-center p-2 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-blue peer-checked:bg-blue-50/80 peer-checked:text-brand-blue peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-video text-xs"></i>
-                                    <span class="font-bold text-[10px]" data-i18n="ratioOriginal">Asli</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="aspect-ratio" value="9:16" class="peer sr-only">
-                                <div class="text-center p-2 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-blue peer-checked:bg-blue-50/80 peer-checked:text-brand-blue peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-mobile-alt text-xs"></i>
-                                    <span class="font-bold text-[10px]">9:16</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="aspect-ratio" value="16:9" class="peer sr-only">
-                                <div class="text-center p-2 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-blue peer-checked:bg-blue-50/80 peer-checked:text-brand-blue peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-desktop text-xs"></i>
-                                    <span class="font-bold text-[10px]">16:9</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="aspect-ratio" value="1:1" class="peer sr-only">
-                                <div class="text-center p-2 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-blue peer-checked:bg-blue-50/80 peer-checked:text-brand-blue peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-square text-xs"></i>
-                                    <span class="font-bold text-[10px]">1:1</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- PILIHAN KUALITAS GAMBAR VIDEO -->
-                    <div class="bg-gradient-to-br from-purple-50/60 to-blue-50/60 p-4 rounded-2xl border border-purple-100/80 shadow-sm">
-                        <label class="block text-xs font-bold text-brand-navy mb-2.5 flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-lg gradient-bg text-white flex items-center justify-center text-[11px] shadow-sm">
-                                <i class="fas fa-sliders-h"></i>
-                            </div>
-                            <span data-i18n="qualityLabel">Kualitas Gambar:</span>
-                        </label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="video-quality" value="hd" class="peer sr-only">
-                                <div class="text-center p-2.5 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-purple peer-checked:bg-purple-50/80 peer-checked:text-brand-purple peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-hd text-sm"></i>
-                                    <span class="font-bold text-xs">HD</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="video-quality" value="sd" checked class="peer sr-only">
-                                <div class="text-center p-2.5 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-purple peer-checked:bg-purple-50/80 peer-checked:text-brand-purple peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-film text-sm"></i>
-                                    <span class="font-bold text-xs" data-i18n="qualStd">Standar</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="video-quality" value="low" class="peer sr-only">
-                                <div class="text-center p-2.5 rounded-xl border-2 border-slate-200/80 bg-white text-slate-700 peer-checked:border-brand-purple peer-checked:bg-purple-50/80 peer-checked:text-brand-purple peer-checked:shadow-sm transition-all flex flex-col items-center justify-center gap-0.5">
-                                    <i class="fas fa-feather text-sm"></i>
-                                    <span class="font-bold text-xs" data-i18n="qualLow">Hemat</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
 
                 <button id="merge-btn" class="w-full gradient-bg gradient-bg-hover text-white py-4 rounded-xl font-semibold text-lg shadow-glow hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                     <i class="fas fa-layer-group"></i> <span data-i18n="mergeBtn">Gabungkan Video Sekarang</span>
@@ -1215,16 +1140,7 @@
 
         let currentLang = 'id';
         const userLang = (navigator.language || navigator.userLanguage || 'id').toLowerCase();
-        
-        if (userLang.startsWith('es')) currentLang = 'es';
-        else if (userLang.startsWith('fr')) currentLang = 'fr';
-        else if (userLang.startsWith('de')) currentLang = 'de';
-        else if (userLang.startsWith('ar')) currentLang = 'ar';
-        else if (userLang.startsWith('pt')) currentLang = 'pt';
-        else if (userLang.startsWith('ja')) currentLang = 'ja';
-        else if (userLang.startsWith('ko')) currentLang = 'ko';
-        else if (userLang.startsWith('zh')) currentLang = 'zh';
-        else if (!userLang.startsWith('id')) currentLang = 'en';
+        if (!userLang.startsWith('id')) currentLang = 'en';
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -1244,13 +1160,8 @@
             }
         }
 
-        function changeLanguage(lang) {
-            setLanguage(lang);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            setLanguage(currentLang);
-        });
+        function changeLanguage(lang) { setLanguage(lang); }
+        window.addEventListener('DOMContentLoaded', () => { setLanguage(currentLang); });
 
         function openModal(title, content) {
             event.preventDefault();
@@ -1291,11 +1202,7 @@
             videoEl.pause();
             videoEl.removeAttribute('src');
             videoEl.load();
-            if(trimPreviewUrl) {
-                URL.revokeObjectURL(trimPreviewUrl);
-                trimPreviewUrl = null;
-            }
-            
+            if(trimPreviewUrl) { URL.revokeObjectURL(trimPreviewUrl); trimPreviewUrl = null; }
             currentTrimIndex = -1;
         }
         
@@ -1319,10 +1226,7 @@
             if (s < 0) s = 0;
             if (e > item.meta.duration) e = item.meta.duration;
             
-            if (s >= e) {
-                alert("Start time must be less than end time!");
-                return;
-            }
+            if (s >= e) { alert("Start time must be less than end time!"); return; }
             
             item.trimStart = s;
             item.trimEnd = e;
@@ -1347,14 +1251,10 @@
             pwaInstallContainer.classList.add('flex', 'banner-masuk');
         }, 2000);
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e; 
-        });
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 
         pwaCloseBtn.addEventListener('click', () => {
-            pwaInstallContainer.classList.add('hidden');
-            pwaInstallContainer.classList.remove('flex');
+            pwaInstallContainer.classList.add('hidden'); pwaInstallContainer.classList.remove('flex');
         });
 
         pwaInstallBtn.addEventListener('click', async () => {
@@ -1403,30 +1303,19 @@
                     clearTimeout(timeout);
                     try {
                         const canvas = document.createElement('canvas');
-                        canvas.width = 100;
-                        canvas.height = 100;
+                        canvas.width = 100; canvas.height = 100;
                         const ctx = canvas.getContext('2d');
                         const ratio = video.videoWidth / video.videoHeight;
                         let dw = canvas.width, dh = canvas.height, sx = 0, sy = 0;
                         if (ratio > 1) { dw = canvas.height * ratio; sx = (canvas.width - dw) / 2; } 
                         else { dh = canvas.width / ratio; sy = (canvas.height - dh) / 2; }
                         ctx.drawImage(video, sx, sy, dw, dh);
-                        
-                        resolve({
-                            duration: video.duration,
-                            width: video.videoWidth,
-                            height: video.videoHeight,
-                            thumb: canvas.toDataURL('image/jpeg', 0.6)
-                        });
+                        resolve({ duration: video.duration, width: video.videoWidth, height: video.videoHeight, thumb: canvas.toDataURL('image/jpeg', 0.6) });
                     } catch (e) {
                         resolve({ duration: video.duration, width: video.videoWidth, height: video.videoHeight, thumb: null });
                     }
                 };
-                
-                video.onerror = () => {
-                    clearTimeout(timeout);
-                    resolve({ duration: 0, width: 0, height: 0, thumb: null });
-                };
+                video.onerror = () => { clearTimeout(timeout); resolve({ duration: 0, width: 0, height: 0, thumb: null }); };
             });
         };
 
@@ -1436,15 +1325,12 @@
 
             if (selectedFiles.length === 0) {
                 videoListArea.classList.add('hidden');
-                dropZone.classList.remove('hidden');
-                dropZone.classList.add('flex');
-                errorMsg.classList.add('hidden');
-                errorMsg.classList.remove('flex');
+                dropZone.classList.remove('hidden'); dropZone.classList.add('flex');
+                errorMsg.classList.add('hidden'); errorMsg.classList.remove('flex');
                 return;
             }
 
-            dropZone.classList.add('hidden');
-            dropZone.classList.remove('flex');
+            dropZone.classList.add('hidden'); dropZone.classList.remove('flex');
             videoListArea.classList.remove('hidden');
             
             for (let i = 0; i < selectedFiles.length; i++) {
@@ -1462,20 +1348,14 @@
                 const div = document.createElement('div');
                 div.className = 'flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl shadow-sm mb-3 hover:shadow-md transition-shadow';
                 div.innerHTML = `
-                    <div class="w-14 h-14 bg-slate-800 rounded-lg flex-shrink-0 relative overflow-hidden flex items-center justify-center text-white">
-                        ${thumbHTML}
-                    </div>
+                    <div class="w-14 h-14 bg-slate-800 rounded-lg flex-shrink-0 relative overflow-hidden flex items-center justify-center text-white">${thumbHTML}</div>
                     <div class="flex-grow overflow-hidden">
                         <h4 class="font-medium text-sm text-brand-navy truncate">${item.file.name}</h4>
                         <p class="text-xs text-slate-400 mt-0.5">${formatBytes(item.file.size)} • ${trimText}</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-1">
-                        <button class="text-slate-400 hover:text-brand-blue transition-colors bg-slate-50 p-2 rounded-lg" onclick="openTrimModal(${i})" title="Trim">
-                            <i class="fas fa-cut"></i>
-                        </button>
-                        <button class="text-slate-400 hover:text-red-500 transition-colors bg-slate-50 p-2 rounded-lg" onclick="removeFile(${i})" title="Remove">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
+                        <button class="text-slate-400 hover:text-brand-blue transition-colors bg-slate-50 p-2 rounded-lg" onclick="openTrimModal(${i})" title="Trim"><i class="fas fa-cut"></i></button>
+                        <button class="text-slate-400 hover:text-red-500 transition-colors bg-slate-50 p-2 rounded-lg" onclick="removeFile(${i})" title="Remove"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 `;
                 fileList.appendChild(div);
@@ -1485,50 +1365,32 @@
             totalSizeEl.textContent = formatBytes(totalBytes);
 
             if ((totalBytes / (1024 * 1024)) > MAX_FILE_SIZE_MB) {
-                totalSizeEl.classList.replace('text-brand-blue', 'text-red-600');
-                totalSizeEl.classList.replace('bg-blue-50', 'bg-red-50');
-                totalSizeEl.classList.replace('border-blue-100', 'border-red-100');
-                mergeBtn.disabled = true;
-                errorMsg.classList.remove('hidden');
-                errorMsg.classList.add('flex');
+                totalSizeEl.classList.replace('text-brand-blue', 'text-red-600'); totalSizeEl.classList.replace('bg-blue-50', 'bg-red-50'); totalSizeEl.classList.replace('border-blue-100', 'border-red-100');
+                mergeBtn.disabled = true; errorMsg.classList.remove('hidden'); errorMsg.classList.add('flex');
             } else {
-                totalSizeEl.classList.replace('text-red-600', 'text-brand-blue');
-                totalSizeEl.classList.replace('bg-red-50', 'bg-blue-50');
-                totalSizeEl.classList.replace('border-red-100', 'border-blue-100');
-                mergeBtn.disabled = false;
-                errorMsg.classList.add('hidden');
-                errorMsg.classList.remove('flex');
+                totalSizeEl.classList.replace('text-red-600', 'text-brand-blue'); totalSizeEl.classList.replace('bg-red-50', 'bg-blue-50'); totalSizeEl.classList.replace('border-red-100', 'border-blue-100');
+                mergeBtn.disabled = false; errorMsg.classList.add('hidden'); errorMsg.classList.remove('flex');
             }
         };
 
-        window.removeFile = (index) => {
-            selectedFiles.splice(index, 1);
-            updateUI();
-        };
+        window.removeFile = (index) => { selectedFiles.splice(index, 1); updateUI(); };
 
         dropZone.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', function() { handleFiles(this.files); });
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
-        });
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => { dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false); });
         dropZone.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
 
         async function handleFiles(files) {
             const newFiles = Array.from(files).filter(file => file.type.startsWith('video/'));
             if (newFiles.length === 0) return;
 
-            ['upload-area', 'video-list-area', 'processing-area', 'result-area'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
+            ['upload-area', 'video-list-area', 'processing-area', 'result-area'].forEach(id => { document.getElementById(id).classList.add('hidden'); });
             const loadingArea = document.getElementById('loading-media-area');
             const loadingCounter = document.getElementById('loading-counter');
             loadingArea.classList.remove('hidden');
 
             let loadStart = Date.now();
-            let timerInterval = setInterval(() => {
-                loadingCounter.textContent = `Loading... (${Math.floor((Date.now() - loadStart) / 1000)}s)`;
-            }, 1000);
+            let timerInterval = setInterval(() => { loadingCounter.textContent = `Loading... (${Math.floor((Date.now() - loadStart) / 1000)}s)`; }, 1000);
 
             for(let f of newFiles) {
                 let meta = await getVideoMetadata(f);
@@ -1541,17 +1403,23 @@
             fileInput.value = '';
         }
 
-        // KODE FIX UNTUK HTML LAMA KAMU - VERSI 0.11.6 STABIL
-        const { createFFmpeg, fetchFile } = FFmpeg;
+        function showSection(id){
+            document.getElementById('loading-media-area')?.classList.add('hidden');
+            document.getElementById('processing-area')?.classList.add('hidden');
+            document.getElementById('result-area')?.classList.add('hidden');
+            document.getElementById(id)?.classList.remove('hidden');
+        }
+
+        // =======================================================================
+        // MESIN FFMPEG TERBARU - MENGATASI ERROR WORKER CORS & DURASI PRESISI
+        // =======================================================================
+        const { FFmpeg } = window.FFmpegWASM;
+        const { fetchFile, toBlobURL } = window.FFmpegUtil; // TYPO FIX: dihapus tulisan WASM dari FFmpegUtil
         let ffmpeg = null;
 
         mergeBtn.addEventListener('click', async () => {
-            if (selectedFiles.length === 0) {
-                alert('Pilih video dulu');
-                return;
-            }
+            if (selectedFiles.length === 0) { alert('Pilih video dulu'); return; }
 
-            // Cek total size 100MB seperti di HTML kamu line 287
             const totalSize = selectedFiles.reduce((a,b)=>a+b.file.size,0);
             if (totalSize > 100 * 1024 * 1024) {
                 document.getElementById('error-msg').classList.remove('hidden');
@@ -1566,15 +1434,25 @@
 
             try {
                 if (!ffmpeg) {
-                    ffmpeg = createFFmpeg({
-                        log: false,
-                        corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
+                    ffmpeg = new FFmpeg();
+                    ffmpeg.on('log', ({ message }) => console.log(message));
+                    ffmpeg.on('progress', ({ progress }) => {
+                        const pct = 10 + Math.round(progress * 90);
+                        progressBar.style.width = pct + '%';
+                        progressText.textContent = pct + '%';
                     });
-                    statusText.textContent = 'Menyiapkan mesin... (pertama kali agak lama)';
-                    await ffmpeg.load();
+
+                    statusText.textContent = 'Mendownload mesin AI (Tunggu sebentar, ini mengatasi error Worker)...';
+                    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+                    
+                    // TRIK BLOB URL: Agar script tidak di-block oleh browser (CORS Error)
+                    await ffmpeg.load({
+                        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+                        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+                    });
                 }
 
-                statusText.textContent = `Memotong ${selectedFiles.length} video sesuai trim...`;
+                statusText.textContent = `Memotong & Merender ${selectedFiles.length} video presisi...`;
                 const trimmedFiles = [];
 
                 for (let i = 0; i < selectedFiles.length; i++) {
@@ -1583,37 +1461,32 @@
                     const end = item.trimEnd || item.meta.duration;
                     const dur = end - start;
 
-                    ffmpeg.FS('writeFile', `in${i}.mp4`, await fetchFile(item.file));
+                    await ffmpeg.writeFile(`in${i}.mp4`, await fetchFile(item.file));
 
-                    // Potong presisi - ini yang bikin hasil gabung = hasil download
-                    await ffmpeg.run(
+                    // Potong presisi (Re-encoding) - Memastikan durasi download = hasil gabung
+                    await ffmpeg.exec([
                         '-ss', String(start),
                         '-t', String(dur),
                         '-i', `in${i}.mp4`,
                         '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
                         '-c:a', 'aac', '-b:a', '128k',
                         `trim${i}.mp4`
-                    );
+                    ]);
                     trimmedFiles.push(`trim${i}.mp4`);
-                    
-                    const pct = Math.round((i+1)/selectedFiles.length * 70);
-                    progressBar.style.width = pct + '%';
-                    progressText.textContent = pct + '%';
                 }
 
-                // Gabung
                 const concatList = trimmedFiles.map(f => `file '${f}'`).join('\n');
-                ffmpeg.FS('writeFile', 'concat.txt', concatList);
-                statusText.textContent = 'Menggabungkan video...';
+                await ffmpeg.writeFile('concat.txt', concatList);
+                statusText.textContent = 'Menyatukan video...';
 
-                await ffmpeg.run(
+                await ffmpeg.exec([
                     '-f', 'concat', '-safe', '0', '-i', 'concat.txt',
                     '-c', 'copy',
                     '-movflags', '+faststart',
                     'output.mp4'
-                );
+                ]);
 
-                const data = ffmpeg.FS('readFile', 'output.mp4');
+                const data = await ffmpeg.readFile('output.mp4');
                 const finalBlob = new Blob([data.buffer], { type: 'video/mp4' });
                 const url = URL.createObjectURL(finalBlob);
 
@@ -1621,31 +1494,26 @@
                 if (btn) {
                     btn.href = url;
                     btn.download = `GabungVideo_${Date.now()}.mp4`;
-                    btn.onclick = null;
                 }
 
                 progressBar.style.width = '100%';
                 progressText.textContent = '100%';
-                statusText.textContent = `Selesai! Durasi pas, ada suara, siap untuk Snack Video / TikTok`;
+                statusText.textContent = `Selesai! Durasi presisi & Siap Diunduh`;
                 showSection('result-area');
 
                 // Bersihkan memory
-                trimmedFiles.forEach(f => { try{ ffmpeg.FS('unlink', f)}catch(e){} });
-                try{ ffmpeg.FS('unlink', 'concat.txt'); ffmpeg.FS('unlink', 'output.mp4'); }catch(e){}
+                try {
+                    trimmedFiles.forEach(async (f) => await ffmpeg.deleteFile(f));
+                    await ffmpeg.deleteFile('concat.txt');
+                    await ffmpeg.deleteFile('output.mp4');
+                } catch(e) {}
 
             } catch (err) {
                 console.error(err);
                 statusText.textContent = 'Gagal: ' + err.message;
-                alert('GAGAL GABUNG: ' + err.message + '\n\nCoba video lebih kecil dulu <20MB untuk tes');
+                alert('GAGAL GABUNG: ' + err.message);
             }
         });
-
-        function showSection(id){
-            document.getElementById('loading-media-area')?.classList.add('hidden');
-            document.getElementById('processing-area')?.classList.add('hidden');
-            document.getElementById('result-area')?.classList.add('hidden');
-            document.getElementById(id)?.classList.remove('hidden');
-        }
 
         const downloadBtn = document.getElementById('download-btn');
         downloadBtn.addEventListener('click', () => {
