@@ -945,7 +945,7 @@
                 faq3Q: "ما هو الحد الأقصى لحجم ملف الفيديو؟",
                 faq3A: "الحد الأقص لإجمالي حجم ملفات الفيديو هو 100 ميجابايت لضمان المعالجة السلسة.",
                 aboutHeading: "لماذا تختار أداة دمج الفيديو الخاصة بنا؟",
-                aboutDesc: "صُممت خصيصاً لتمكينك من dمج المقاطع فوراً من متصفحك مع حماية كاملة لخصوصيتك محلياً.",
+                aboutDesc: "صُممت خصيصاً لتمكينك من دمج المقاطع فوراً من متصفحك مع حماية كاملة لخصوصيتك محلياً.",
                 footerDesc: "الحل الأفضل لقص ودمج مقاطع الفيديو فوراً بدون تثبيت معقد.",
                 footerProd: "المنتج",
                 footerHelp: "الدعم",
@@ -1541,69 +1541,111 @@
             fileInput.value = '';
         }
 
-        function showSection(sectionId) {
-            ['upload-area', 'video-list-area', 'loading-media-area', 'processing-area', 'result-area'].forEach(id => {
-                const el = document.getElementById(id);
-                el.classList.add('hidden');
-                if(id === 'upload-area') el.classList.remove('flex');
-            });
-            const target = document.getElementById(sectionId);
-            target.classList.remove('hidden');
-            if (sectionId === 'upload-area') target.classList.add('flex');
-        }
-
+        // KODE FIX UNTUK HTML LAMA KAMU - VERSI 0.11.6 STABIL
         const { createFFmpeg, fetchFile } = FFmpeg;
+        let ffmpeg = null;
+
         mergeBtn.addEventListener('click', async () => {
-            if (selectedFiles.length === 0) return;
+            if (selectedFiles.length === 0) {
+                alert('Pilih video dulu');
+                return;
+            }
+
+            // Cek total size 100MB seperti di HTML kamu line 287
+            const totalSize = selectedFiles.reduce((a,b)=>a+b.file.size,0);
+            if (totalSize > 100 * 1024 * 1024) {
+                document.getElementById('error-msg').classList.remove('hidden');
+                document.getElementById('error-text').textContent = 'Total ukuran file melebihi batas maksimal 100MB!';
+                return;
+            }
+
             showSection('processing-area');
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
             const statusText = document.getElementById('process-status');
 
             try {
-                const ffmpeg = createFFmpeg({ 
-                    log: false,
-                    corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
-                });
-                statusText.textContent = 'Loading...';
-                await ffmpeg.load();
+                if (!ffmpeg) {
+                    ffmpeg = createFFmpeg({
+                        log: false,
+                        corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
+                    });
+                    statusText.textContent = 'Menyiapkan mesin... (pertama kali agak lama)';
+                    await ffmpeg.load();
+                }
 
+                statusText.textContent = `Memotong ${selectedFiles.length} video sesuai trim...`;
                 const trimmedFiles = [];
-                for (let i=0; i<selectedFiles.length; i++) {
+
+                for (let i = 0; i < selectedFiles.length; i++) {
                     const item = selectedFiles[i];
-                    statusText.textContent = `Memotong ${i+1}/${selectedFiles.length}...`;
-                    ffmpeg.FS('writeFile', `input${i}`, await fetchFile(item.file));
+                    const start = item.trimStart || 0;
+                    const end = item.trimEnd || item.meta.duration;
+                    const dur = end - start;
+
+                    ffmpeg.FS('writeFile', `in${i}.mp4`, await fetchFile(item.file));
+
+                    // Potong presisi - ini yang bikin hasil gabung = hasil download
                     await ffmpeg.run(
-                        '-ss', String(item.trimStart),
-                        '-t', String(item.trimEnd - item.trimStart),
-                        '-i', `input${i}`,
-                        '-c:v','libx264','-pix_fmt','yuv420p','-r','30',
-                        '-c:a','aac','-b:a','128k',
+                        '-ss', String(start),
+                        '-t', String(dur),
+                        '-i', `in${i}.mp4`,
+                        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
+                        '-c:a', 'aac', '-b:a', '128k',
                         `trim${i}.mp4`
                     );
                     trimmedFiles.push(`trim${i}.mp4`);
+                    
+                    const pct = Math.round((i+1)/selectedFiles.length * 70);
+                    progressBar.style.width = pct + '%';
+                    progressText.textContent = pct + '%';
                 }
 
-                const concatList = trimmedFiles.map(f=>`file '${f}'`).join('\n');
+                // Gabung
+                const concatList = trimmedFiles.map(f => `file '${f}'`).join('\n');
                 ffmpeg.FS('writeFile', 'concat.txt', concatList);
-                statusText.textContent = 'Menggabungkan...';
-                await ffmpeg.run('-f','concat','-safe','0','-i','concat.txt','-c','copy','-movflags','+faststart','output.mp4');
+                statusText.textContent = 'Menggabungkan video...';
+
+                await ffmpeg.run(
+                    '-f', 'concat', '-safe', '0', '-i', 'concat.txt',
+                    '-c', 'copy',
+                    '-movflags', '+faststart',
+                    'output.mp4'
+                );
 
                 const data = ffmpeg.FS('readFile', 'output.mp4');
-                const finalBlob = new Blob([data.buffer], {type:'video/mp4'});
+                const finalBlob = new Blob([data.buffer], { type: 'video/mp4' });
+                const url = URL.createObjectURL(finalBlob);
+
                 const btn = document.getElementById('download-btn');
-                btn.href = URL.createObjectURL(finalBlob);
-                btn.download = `GabungVideo_${Date.now()}.mp4`;
-                
-                progressBar.style.width='100%'; progressText.textContent='100%';
-                statusText.textContent='Selesai - Durasi pas - Ada suara';
+                if (btn) {
+                    btn.href = url;
+                    btn.download = `GabungVideo_${Date.now()}.mp4`;
+                    btn.onclick = null;
+                }
+
+                progressBar.style.width = '100%';
+                progressText.textContent = '100%';
+                statusText.textContent = `Selesai! Durasi pas, ada suara, siap untuk Snack Video / TikTok`;
                 showSection('result-area');
 
-            } catch(err){
-                alert('GAGAL: '+err.message);
-                statusText.textContent = 'Gagal: '+err.message;
+                // Bersihkan memory
+                trimmedFiles.forEach(f => { try{ ffmpeg.FS('unlink', f)}catch(e){} });
+                try{ ffmpeg.FS('unlink', 'concat.txt'); ffmpeg.FS('unlink', 'output.mp4'); }catch(e){}
+
+            } catch (err) {
+                console.error(err);
+                statusText.textContent = 'Gagal: ' + err.message;
+                alert('GAGAL GABUNG: ' + err.message + '\n\nCoba video lebih kecil dulu <20MB untuk tes');
             }
         });
+
+        function showSection(id){
+            document.getElementById('loading-media-area')?.classList.add('hidden');
+            document.getElementById('processing-area')?.classList.add('hidden');
+            document.getElementById('result-area')?.classList.add('hidden');
+            document.getElementById(id)?.classList.remove('hidden');
+        }
 
         const downloadBtn = document.getElementById('download-btn');
         downloadBtn.addEventListener('click', () => {
