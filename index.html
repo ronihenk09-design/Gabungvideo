@@ -41,7 +41,7 @@
         "Gabung video gratis tanpa watermark",
         "Potong video (Trim) visual sesuai durasi yang diinginkan",
         "Mendukung ukuran total file hingga 100MB",
-        "Format Output menyesuaikan perangkat agar valid di galeri",
+        "Fitur Web Share (Bagikan Langsung) ke Sosmed / Galeri",
         "Rendering lokal (Client-side) yang aman privasi"
       ]
     }
@@ -328,18 +328,18 @@
                     <i class="fas fa-check"></i>
                 </div>
                 <h3 class="text-2xl font-bold text-brand-navy mb-2">Selesai Dirender!</h3>
-                <p class="text-slate-500 text-sm mb-4">Video gabungan Anda siap diunduh ke memori perangkat.</p>
+                <p class="text-slate-500 text-sm mb-4">Gunakan tombol <strong>Bagikan</strong> di bawah untuk langsung mengirim ke WhatsApp/TikTok atau menyimpannya paksa ke Galeri HP.</p>
                 
-                <!-- Info Tambahan Jika File Tersembunyi -->
-                <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 mb-6 text-xs text-brand-navy flex items-start gap-2 text-left">
-                    <i class="fas fa-info-circle text-brand-blue mt-0.5"></i>
-                    <p><strong>Catatan:</strong> Jika file tidak langsung muncul di Galeri, buka aplikasi <strong>File Manager (Pengelola File)</strong> di HP Anda lalu cek folder <strong>Unduhan (Download)</strong>.</p>
-                </div>
+                <!-- Tombol Bagikan / Simpan ke Sosmed (Native) -->
+                <button id="share-btn" class="hidden w-full py-4 rounded-xl font-semibold text-lg border-2 border-brand-blue text-brand-blue hover:bg-blue-50 transition-all active:scale-[0.98] flex items-center justify-center mb-3">
+                    <i class="fas fa-share-alt mr-2"></i> Bagikan / Kirim Langsung
+                </button>
                 
-                <a id="download-btn" href="#" class="wave-btn w-full py-4 rounded-xl font-semibold text-lg shadow-soft hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center mb-5 block">
+                <!-- Tombol Download Biasa (Fallback) -->
+                <a id="download-btn" href="#" class="wave-btn w-full py-4 rounded-xl font-semibold text-lg shadow-soft hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center mb-6 block">
                     <div class="wave-fill"></div>
                     <span id="wave-text" class="relative z-10 flex items-center gap-2">
-                        <i class="fas fa-download"></i> Unduh Video Hasil
+                        <i class="fas fa-download"></i> Unduh Manual
                     </span>
                 </a>
                 
@@ -852,7 +852,7 @@
                 ...audioDest.stream.getAudioTracks()
             ]);
 
-            // Setup MediaRecorder dengan Format Asli Browser
+            // Setup MediaRecorder
             let selectedMimeType = '';
             let ext = 'webm';
             const mimeTypes = [
@@ -883,7 +883,6 @@
             recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
             const recordingFinished = new Promise(resolve => {
-                // PERBAIKAN: Gunakan tipe asli (selectedMimeType) agar file valid di Mata Android/iOS
                 recorder.onstop = () => resolve(new Blob(chunks, { type: selectedMimeType }));
             });
 
@@ -1039,15 +1038,34 @@
             recorder.stop();
             
             const finalBlob = await recordingFinished;
-            const finalUrl = URL.createObjectURL(finalBlob);
+            const fileName = `GabungVideo_Hasil_${new Date().getTime()}.${ext}`;
+            const finalFile = new File([finalBlob], fileName, { type: selectedMimeType });
+            const finalUrl = URL.createObjectURL(finalFile);
 
+            // PENERAPAN FALLBACK: TOMBOL UNDUH BIASA
             const downloadBtn = document.getElementById('download-btn');
             downloadBtn.href = finalUrl;
-            
-            // Nama file dinamis mengikuti tipe mesin rendering browser
-            downloadBtn.download = `GabungVideo_Hasil_${new Date().getTime()}.${ext}`;
-            
-            document.getElementById('wave-text').innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.${ext})`;
+            downloadBtn.download = fileName;
+            document.getElementById('wave-text').innerHTML = `<i class="fas fa-download"></i> Unduh Manual (.${ext})`;
+
+            // PENERAPAN FITUR BAGIKAN LANGSUNG (NATIVE SHARE API)
+            const shareBtn = document.getElementById('share-btn');
+            if (navigator.canShare && navigator.canShare({ files: [finalFile] })) {
+                shareBtn.classList.remove('hidden');
+                shareBtn.onclick = async () => {
+                    try {
+                        await navigator.share({
+                            title: 'Video Gabungan',
+                            text: 'Video hasil gabungan menggunakan gabungvideo.online',
+                            files: [finalFile]
+                        });
+                    } catch (err) {
+                        console.log('Batal bagikan atau error:', err);
+                    }
+                };
+            } else {
+                shareBtn.classList.add('hidden');
+            }
 
             showSection('result-area');
         });
@@ -1063,10 +1081,10 @@
             text.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyiapkan File...';
 
             setTimeout(() => {
-                text.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil Disimpan!';
+                text.innerHTML = '<i class="fas fa-check-circle"></i> File Disimpan ke Cache';
                 setTimeout(() => {
                     downloadBtn.classList.remove('downloading');
-                    text.innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.${currentExt})`;
+                    text.innerHTML = `<i class="fas fa-download"></i> Unduh Manual (.${currentExt})`;
                 }, 2500);
             }, 3000); 
         });
