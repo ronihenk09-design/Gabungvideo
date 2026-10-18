@@ -40,6 +40,7 @@
       "featureList": [
         "Gabung video gratis tanpa watermark",
         "Potong video (Trim) visual sesuai durasi yang diinginkan",
+        "Pilihan Resolusi 480p, 720p, 1080p",
         "Mendukung ukuran total file hingga 100MB",
         "Format Output MP4 / WebM yang optimal untuk sosmed",
         "Rendering lokal (Client-side) yang aman privasi dengan kompresi otomatis"
@@ -296,6 +297,23 @@
                 <button onclick="document.getElementById('file-input').click()" class="w-full py-3.5 border-2 border-dashed border-blue-200 text-brand-blue rounded-xl font-medium text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 mb-6">
                     <i class="fas fa-plus"></i> Tambah Video Lain
                 </button>
+
+                <!-- Pilihan Resolusi -->
+                <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <label for="resolution-select" class="block text-sm font-semibold text-brand-navy mb-2 flex items-center gap-2">
+                        <i class="fas fa-cog text-slate-400"></i> Kualitas Video Hasil
+                    </label>
+                    <div class="relative">
+                        <select id="resolution-select" class="w-full appearance-none bg-white border border-slate-200 text-brand-navy rounded-lg px-4 py-3 pr-8 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition-all cursor-pointer text-sm">
+                            <option value="480">Standard (480p) - Hemat Kuota</option>
+                            <option value="720" selected>High Definition (720p) - Optimal / Default</option>
+                            <option value="1080">Full HD (1080p) - Kualitas Terbaik</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                </div>
 
                 <button id="merge-btn" class="w-full gradient-bg gradient-bg-hover text-white py-4 rounded-xl font-semibold text-lg shadow-glow hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                     <i class="fas fa-layer-group"></i> Gabung & Kompres Sekarang
@@ -812,10 +830,21 @@
 
             const startTime = Date.now();
 
+            // AMBIL PILIHAN RESOLUSI DARI DROPDOWN
+            const resolutionSelect = document.getElementById('resolution-select');
+            const MAX_DIMENSION = parseInt(resolutionSelect.value) || 720;
+            
+            // ATUR BITRATE KOMPRESI BERDASARKAN RESOLUSI
+            let videoBitrate = 2500000; // Default 720p (~2.5 Mbps)
+            if (MAX_DIMENSION === 480) {
+                videoBitrate = 1200000; // 480p (~1.2 Mbps)
+            } else if (MAX_DIMENSION === 1080) {
+                videoBitrate = 5000000; // 1080p (~5.0 Mbps)
+            }
+
             const firstVideoMeta = selectedFiles[0].meta;
             const canvas = document.createElement('canvas');
             
-            const MAX_DIMENSION = 720;
             let origW = firstVideoMeta.width || 1280;
             let origH = firstVideoMeta.height || 720;
 
@@ -868,11 +897,11 @@
             }
             if(!selectedMimeType) selectedMimeType = 'video/webm';
 
-            // FITUR KOMPRESI OTOMATIS SAAT RENDERING
+            // FITUR KOMPRESI OTOMATIS BERDASARKAN RESOLUSI
             const recorderOptions = {
                 mimeType: selectedMimeType,
-                videoBitsPerSecond: 2500000, // Kompresi ke ~2.5 Mbps (File kecil, kualitas terjaga)
-                audioBitsPerSecond: 128000   // Standar audio MP4/WebM
+                videoBitsPerSecond: videoBitrate, 
+                audioBitsPerSecond: 128000   
             };
 
             const recorder = new MediaRecorder(combinedStream, recorderOptions);
@@ -1073,6 +1102,7 @@
             showSection('upload-area');
             document.getElementById('progress-bar').style.width = '0%';
             document.getElementById('progress-text').textContent = '0%';
+            document.getElementById('resolution-select').value = "720"; // Reset ke default 720p
         }
     </script>
 </body>
