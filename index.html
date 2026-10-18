@@ -41,7 +41,7 @@
         "Gabung video gratis tanpa watermark",
         "Potong video (Trim) visual sesuai durasi yang diinginkan",
         "Mendukung ukuran total file hingga 100MB",
-        "Format Output MP4 / WebM yang optimal untuk sosmed",
+        "Format Output MP4 yang optimal untuk sosmed",
         "Rendering lokal (Client-side) yang aman privasi"
       ]
     }
@@ -333,7 +333,7 @@
                 <a id="download-btn" href="#" class="wave-btn w-full py-4 rounded-xl font-semibold text-lg shadow-soft hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center mb-5 block">
                     <div class="wave-fill"></div>
                     <span id="wave-text" class="relative z-10 flex items-center gap-2">
-                        <i class="fas fa-download"></i> Unduh Video Hasil
+                        <i class="fas fa-download"></i> Unduh Video Hasil (.mp4)
                     </span>
                 </a>
                 
@@ -848,12 +848,12 @@
 
             // Setup MediaRecorder dengan Cerdas (Optimasi Sosmed & Audio)
             let selectedMimeType = '';
-            let ext = 'webm';
             const mimeTypes = [
                 'video/mp4;codecs=avc1,mp4a.40.2',
                 'video/mp4;codecs=avc1',
                 'video/mp4',
-                'video/webm;codecs=h264,opus',
+                'video/webm;codecs=h264,opus', // H264 codec lebih disukai sosmed
+                'video/webm;codecs=h264',
                 'video/webm;codecs=vp9,opus',
                 'video/webm;codecs=vp8,opus',
                 'video/webm'
@@ -862,7 +862,6 @@
             for (let t of mimeTypes) {
                 if (MediaRecorder.isTypeSupported(t)) {
                     selectedMimeType = t;
-                    if (t.includes('mp4')) ext = 'mp4';
                     break;
                 }
             }
@@ -873,7 +872,8 @@
             recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
             const recordingFinished = new Promise(resolve => {
-                recorder.onstop = () => resolve(new Blob(chunks, { type: selectedMimeType }));
+                // PERBAIKAN: Paksa output menjadi tipe 'video/mp4' agar dikenali oleh Media Scanner sosmed
+                recorder.onstop = () => resolve(new Blob(chunks, { type: 'video/mp4' }));
             });
 
             // MENGGAMBAR FRAME PERTAMA DAHULU (Solusi cegah thumbnail galeri blank hitam)
@@ -1033,10 +1033,10 @@
             const downloadBtn = document.getElementById('download-btn');
             downloadBtn.href = finalUrl;
             
-            // Menggunakan ekstensi sebenarnya untuk menghindari file korup
-            downloadBtn.download = `GabungVideo_Hasil_${new Date().getTime()}.${ext}`;
+            // PERBAIKAN: Selalu gunakan ekstensi .mp4 agar muncul di galeri Sosmed (TikTok, IG, WA)
+            downloadBtn.download = `GabungVideo_Hasil_${new Date().getTime()}.mp4`;
             
-            document.getElementById('wave-text').innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.${ext})`;
+            document.getElementById('wave-text').innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.mp4)`;
 
             showSection('result-area');
         });
@@ -1048,14 +1048,13 @@
             const text = document.getElementById('wave-text');
             downloadBtn.classList.add('downloading');
             
-            const currentExt = downloadBtn.download.split('.').pop() || 'mp4';
             text.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyiapkan File...';
 
             setTimeout(() => {
                 text.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil Disimpan!';
                 setTimeout(() => {
                     downloadBtn.classList.remove('downloading');
-                    text.innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.${currentExt})`;
+                    text.innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.mp4)`;
                 }, 2500);
             }, 3000); 
         });
