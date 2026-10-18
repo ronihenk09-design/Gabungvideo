@@ -20,7 +20,7 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2563eb">
 
-    <!-- FFmpeg WASM CDN Scripts Terbaru -->
+    <!-- WAJIB PAKAI INI UNTUK GITHUB PAGES, JANGAN PAKAI VERSI LAIN -->
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
     <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
     
@@ -1561,60 +1561,74 @@
             const progressText = document.getElementById('progress-text');
             const statusText = document.getElementById('process-status');
 
-            const totalDuration = selectedFiles.reduce((a, c) => a + (c.trimEnd - c.trimStart), 0);
-            
-            const { FFmpeg } = FFmpegWASM;
-            const { fetchFile } = FFmpegUtilWASM;
-            const ffmpeg = new FFmpeg();
-            ffmpeg.on('progress', ({ progress }) => {
-                const pct = 10 + Math.round(progress * 90);
-                progressBar.style.width = pct + '%';
-                progressText.textContent = pct + '%';
-            });
+            try {
+                const totalDuration = selectedFiles.reduce((a, c) => a + (c.trimEnd - c.trimStart), 0);
+                statusText.textContent = 'Loading mesin di GitHub Pages...';
 
-            statusText.textContent = 'Menyiapkan mesin (work di GitHub Pages)...';
-            await ffmpeg.load({ coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js' });
+                // INI KUNCI BIAR LANCAR DI GOOGLE CHROME + GITHUB PAGES
+                const { FFmpeg } = window.FFmpegWASM;
+                const { fetchFile } = window.FFmpegUtilWASM;
+                const ffmpeg = new FFmpeg();
 
-            const trimmedFiles = [];
-            for (let i = 0; i < selectedFiles.length; i++) {
-                const item = selectedFiles[i];
-                statusText.textContent = `Memotong ${i+1}/${selectedFiles.length}...`;
-                await ffmpeg.writeFile(`input${i}`, await fetchFile(item.file));
+                ffmpeg.on('log', ({ message }) => console.log(message));
+                ffmpeg.on('progress', ({ progress }) => {
+                    const pct = 10 + Math.round(progress * 90);
+                    progressBar.style.width = pct + '%';
+                    progressText.textContent = pct + '%';
+                });
+
+                // PAKAI core.js SINGLE-THREAD, JANGAN pakai core.wasm yang butuh COOP/COEP
+                await ffmpeg.load({
+                    coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
+                });
+
+                statusText.textContent = `Memotong ${selectedFiles.length} video...`;
+                const trimmedFiles = [];
+
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const item = selectedFiles[i];
+                    await ffmpeg.writeFile(`input${i}`, await fetchFile(item.file));
+                    await ffmpeg.exec([
+                        '-ss', String(item.trimStart),
+                        '-t', String(item.trimEnd - item.trimStart),
+                        '-i', `input${i}`,
+                        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
+                        '-c:a', 'aac', '-b:a', '128k',
+                        `trim${i}.mp4`
+                    ]);
+                    trimmedFiles.push(`trim${i}.mp4`);
+                    progressBar.style.width = `${10 + Math.round((i+1)/selectedFiles.length*30)}%`;
+                }
+
+                const concatList = trimmedFiles.map(f => `file '${f}'`).join('\n');
+                await ffmpeg.writeFile('concat.txt', concatList);
                 
-                // POTONG PRESISI SESUAI TRIM DI PREVIEW
+                statusText.textContent = 'Menggabungkan untuk TikTok/Snack/Reels...';
                 await ffmpeg.exec([
-                    '-ss', item.trimStart.toString(),
-                    '-t', (item.trimEnd - item.trimStart).toString(),
-                    '-i', `input${i}`,
-                    '-c:v', 'libx264', '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-r', '30',
-                    '-c:a', 'aac', '-b:a', '128k',
-                    `trim${i}.mp4`
+                    '-f', 'concat', '-safe', '0', '-i', 'concat.txt',
+                    '-c', 'copy',
+                    '-movflags', '+faststart',
+                    'output.mp4'
                 ]);
-                trimmedFiles.push(`trim${i}.mp4`);
+
+                const data = await ffmpeg.readFile('output.mp4');
+                const finalBlob = new Blob([data.buffer], { type: 'video/mp4' });
+                const url = URL.createObjectURL(finalBlob);
+
+                const btn = document.getElementById('download-btn');
+                btn.href = url; btn.download = `GabungVideo_${Date.now()}.mp4`;
+
+                progressBar.style.width = '100%'; progressText.textContent = '100%';
+                statusText.textContent = `Selesai! Durasi pas ${totalDuration.toFixed(1)}s - Ada suara`;
+                showSection('result-area');
+
+            } catch (err) {
+                // INI BIAR KAMU TAU KENAPA TIDAK JALAN DI GOOGLE
+                console.error(err);
+                statusText.textContent = 'Gagal: ' + err.message;
+                statusText.innerHTML += '<br><br>Buka Chrome > Titik 3 > DevTools > Console, screenshot errornya kirim ke saya';
+                alert('GAGAL RENDERING DI GITHUB: ' + err.message + '\n\nPastikan kamu sudah buat file .nojekyll di repo dan pakai HTTPS (bukan http)');
             }
-
-            // GABUNG
-            const concatList = trimmedFiles.map(f => `file '${f}'`).join('\n');
-            await ffmpeg.writeFile('concat.txt', concatList);
-            statusText.textContent = 'Menggabungkan...';
-            
-            await ffmpeg.exec([
-                '-f', 'concat', '-safe', '0', '-i', 'concat.txt',
-                '-c:v', 'libx264', '-c:a', 'aac', '-movflags', '+faststart',
-                'output.mp4'
-            ]);
-
-            const data = await ffmpeg.readFile('output.mp4');
-            const finalBlob = new Blob([data.buffer], { type: 'video/mp4' });
-            
-            const url = URL.createObjectURL(finalBlob);
-            const btn = document.getElementById('download-btn');
-            btn.href = url;
-            btn.download = `GabungVideo_${Date.now()}.mp4`;
-            
-            progressBar.style.width = '100%'; progressText.textContent = '100%';
-            document.getElementById('wave-text').innerHTML = `<i class="fas fa-check"></i> Siap - Durasi Pas ${totalDuration.toFixed(1)}s - Bisa untuk TikTok, Snack, Reels`;
-            showSection('result-area');
         });
 
         const downloadBtn = document.getElementById('download-btn');
