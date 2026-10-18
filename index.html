@@ -41,8 +41,8 @@
         "Gabung video gratis tanpa watermark",
         "Potong video (Trim) visual sesuai durasi yang diinginkan",
         "Mendukung ukuran total file hingga 100MB",
-        "Fitur Web Share (Bagikan Langsung) ke Sosmed / Galeri",
-        "Rendering lokal (Client-side) yang aman privasi"
+        "Format Output MP4 / WebM yang optimal untuk sosmed",
+        "Rendering lokal (Client-side) yang aman privasi dengan kompresi otomatis"
       ]
     }
     </script>
@@ -255,7 +255,7 @@
             </h1>
 
             <p style="text-align:center; color:#555; font-size:14px; margin-top:10px; margin-bottom: 1rem;">
-                gabungvideo.online - gabung MP4, TikTok, Reels, Snack Video jadi 1 otomatis tanpa watermark. Maks 100MB gratis.
+                gabungvideo.online - gabung MP4, TikTok, Reels, Snack Video jadi 1 otomatis kompresi tanpa watermark.
             </p>
             
             <p class="text-slate-500 text-sm sm:text-base mb-8">
@@ -298,7 +298,7 @@
                 </button>
 
                 <button id="merge-btn" class="w-full gradient-bg gradient-bg-hover text-white py-4 rounded-xl font-semibold text-lg shadow-glow hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                    <i class="fas fa-layer-group"></i> Gabungkan Video Sekarang
+                    <i class="fas fa-layer-group"></i> Gabung & Kompres Sekarang
                 </button>
             </div>
 
@@ -312,8 +312,8 @@
             <!-- AREA PROCESSING -->
             <div id="processing-area" class="hidden text-center py-6">
                 <div class="w-16 h-16 border-4 border-blue-100 border-t-brand-blue rounded-full animate-spin mx-auto mb-6"></div>
-                <h2 class="text-2xl font-bold text-brand-navy mb-2">Merender Video...</h2>
-                <p id="process-status" class="text-slate-500 mb-2 text-sm">Proses penggabungan berjalan, harap biarkan layar tetap menyala...</p>
+                <h2 class="text-2xl font-bold text-brand-navy mb-2">Merender & Kompres Video...</h2>
+                <p id="process-status" class="text-slate-500 mb-2 text-sm">Proses berjalan otomatis, harap biarkan layar tetap menyala...</p>
                 <p id="countdown-timer" class="text-xs font-semibold text-brand-purple mb-6 bg-purple-50 py-1.5 px-4 rounded-full inline-block border border-purple-100">Sisa waktu merender: <span id="timer-value">Menghitung...</span></p>
                 
                 <div class="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden shadow-inner">
@@ -328,18 +328,12 @@
                     <i class="fas fa-check"></i>
                 </div>
                 <h3 class="text-2xl font-bold text-brand-navy mb-2">Selesai Dirender!</h3>
-                <p class="text-slate-500 text-sm mb-4">Gunakan tombol <strong>Bagikan</strong> di bawah untuk langsung mengirim ke WhatsApp/TikTok atau menyimpannya paksa ke Galeri HP.</p>
+                <p class="text-slate-500 text-sm mb-8">Video gabungan Anda siap diunduh dan telah dikompres otomatis.</p>
                 
-                <!-- Tombol Bagikan / Simpan ke Sosmed (Native) -->
-                <button id="share-btn" class="hidden w-full py-4 rounded-xl font-semibold text-lg border-2 border-brand-blue text-brand-blue hover:bg-blue-50 transition-all active:scale-[0.98] flex items-center justify-center mb-3">
-                    <i class="fas fa-share-alt mr-2"></i> Bagikan / Kirim Langsung
-                </button>
-                
-                <!-- Tombol Download Biasa (Fallback) -->
-                <a id="download-btn" href="#" class="wave-btn w-full py-4 rounded-xl font-semibold text-lg shadow-soft hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center mb-6 block">
+                <a id="download-btn" href="#" class="wave-btn w-full py-4 rounded-xl font-semibold text-lg shadow-soft hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center mb-5 block">
                     <div class="wave-fill"></div>
                     <span id="wave-text" class="relative z-10 flex items-center gap-2">
-                        <i class="fas fa-download"></i> Unduh Manual
+                        <i class="fas fa-download"></i> Unduh Video Hasil
                     </span>
                 </a>
                 
@@ -374,8 +368,8 @@
                 </div>
                 <div class="relative z-10 text-center flex flex-col items-center">
                     <div class="w-16 h-16 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-2xl font-bold mb-4 shadow-sm border border-blue-100">3</div>
-                    <h3 class="text-lg font-semibold text-brand-navy mb-2">Gabung & Unduh</h3>
-                    <p class="text-sm text-slate-500">Simpan video hasil gabungan langsung ke perangkat.</p>
+                    <h3 class="text-lg font-semibold text-brand-navy mb-2">Gabung & Kompres</h3>
+                    <p class="text-sm text-slate-500">Sistem otomatis merender dan mengkompres video agar siap diunduh.</p>
                 </div>
             </div>
         </div>
@@ -425,7 +419,7 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-bold text-brand-navy mb-6">Kenapa Pilih Gabung Video Tanpa Watermark?</h2>
             <p class="text-slate-500 leading-relaxed text-sm sm:text-base">
-                Platform Gabung Video dirancang khusus untuk memudahkan Anda menyatukan berbagai klip secara instan langsung dari peramban (browser) HP maupun komputer Anda. Karena proses <i>rendering</i> dilakukan secara lokal di perangkat Anda (Client-side), privasi video tetap terjamin aman karena tidak ada data yang diunggah ke server eksternal. Hasilnya pun dapat langsung Anda simpan dengan mulus, gratis, dan tentunya tanpa ada tempelan <i>watermark</i> yang mengganggu.
+                Platform gabungvideo.online dirancang khusus untuk memudahkan Anda menyatukan berbagai klip secara instan langsung dari peramban (browser) HP maupun komputer Anda. Karena proses <i>rendering</i> dilakukan secara lokal di perangkat Anda (Client-side), privasi video tetap terjamin aman karena tidak ada data yang diunggah ke server eksternal. Hasilnya pun dapat langsung Anda simpan dengan mulus, gratis, dan tentunya tanpa ada tempelan <i>watermark</i> yang mengganggu.
             </p>
         </div>
     </section>
@@ -852,7 +846,7 @@
                 ...audioDest.stream.getAudioTracks()
             ]);
 
-            // Setup MediaRecorder
+            // Setup MediaRecorder dengan Cerdas (Optimasi Sosmed & Audio)
             let selectedMimeType = '';
             let ext = 'webm';
             const mimeTypes = [
@@ -860,7 +854,6 @@
                 'video/mp4;codecs=avc1',
                 'video/mp4',
                 'video/webm;codecs=h264,opus',
-                'video/webm;codecs=h264',
                 'video/webm;codecs=vp9,opus',
                 'video/webm;codecs=vp8,opus',
                 'video/webm'
@@ -873,12 +866,16 @@
                     break;
                 }
             }
-            if(!selectedMimeType) {
-                selectedMimeType = 'video/webm';
-                ext = 'webm';
-            }
+            if(!selectedMimeType) selectedMimeType = 'video/webm';
 
-            const recorder = new MediaRecorder(combinedStream, { mimeType: selectedMimeType });
+            // FITUR KOMPRESI OTOMATIS SAAT RENDERING
+            const recorderOptions = {
+                mimeType: selectedMimeType,
+                videoBitsPerSecond: 2500000, // Kompresi ke ~2.5 Mbps (File kecil, kualitas terjaga)
+                audioBitsPerSecond: 128000   // Standar audio MP4/WebM
+            };
+
+            const recorder = new MediaRecorder(combinedStream, recorderOptions);
             const chunks = [];
             recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
@@ -1038,34 +1035,15 @@
             recorder.stop();
             
             const finalBlob = await recordingFinished;
-            const fileName = `GabungVideo_Hasil_${new Date().getTime()}.${ext}`;
-            const finalFile = new File([finalBlob], fileName, { type: selectedMimeType });
-            const finalUrl = URL.createObjectURL(finalFile);
+            const finalUrl = URL.createObjectURL(finalBlob);
 
-            // PENERAPAN FALLBACK: TOMBOL UNDUH BIASA
             const downloadBtn = document.getElementById('download-btn');
             downloadBtn.href = finalUrl;
-            downloadBtn.download = fileName;
-            document.getElementById('wave-text').innerHTML = `<i class="fas fa-download"></i> Unduh Manual (.${ext})`;
-
-            // PENERAPAN FITUR BAGIKAN LANGSUNG (NATIVE SHARE API)
-            const shareBtn = document.getElementById('share-btn');
-            if (navigator.canShare && navigator.canShare({ files: [finalFile] })) {
-                shareBtn.classList.remove('hidden');
-                shareBtn.onclick = async () => {
-                    try {
-                        await navigator.share({
-                            title: 'Video Gabungan',
-                            text: 'Video hasil gabungan menggunakan gabungvideo.online',
-                            files: [finalFile]
-                        });
-                    } catch (err) {
-                        console.log('Batal bagikan atau error:', err);
-                    }
-                };
-            } else {
-                shareBtn.classList.add('hidden');
-            }
+            
+            // Menggunakan ekstensi sebenarnya untuk menghindari file korup
+            downloadBtn.download = `GabungVideo_Hasil_${new Date().getTime()}.${ext}`;
+            
+            document.getElementById('wave-text').innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.${ext})`;
 
             showSection('result-area');
         });
@@ -1081,10 +1059,10 @@
             text.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyiapkan File...';
 
             setTimeout(() => {
-                text.innerHTML = '<i class="fas fa-check-circle"></i> File Disimpan ke Cache';
+                text.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil Disimpan!';
                 setTimeout(() => {
                     downloadBtn.classList.remove('downloading');
-                    text.innerHTML = `<i class="fas fa-download"></i> Unduh Manual (.${currentExt})`;
+                    text.innerHTML = `<i class="fas fa-download"></i> Unduh Video Hasil (.${currentExt})`;
                 }, 2500);
             }, 3000); 
         });
