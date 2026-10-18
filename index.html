@@ -20,15 +20,8 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2563eb">
 
-    <!-- IMPORT MAP UNTUK MENGATASI MODULE ESM DI GITHUB PAGES -->
-    <script type="importmap">
-    {
-      "imports": {
-        "@ffmpeg/ffmpeg": "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js",
-        "@ffmpeg/util": "https://unpkg.com/@ffmpeg/util@0.12.1/dist/esm/index.js"
-      }
-    }
-    </script>
+    <!-- FFMPEG v0.11.6 UMD SCRIPT -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
     
     <!-- Data Terstruktur untuk Mesin Pencari Global & SEO -->
     <script type="application/ld+json">
@@ -952,7 +945,7 @@
                 faq3Q: "ما هو الحد الأقصى لحجم ملف الفيديو؟",
                 faq3A: "الحد الأقص لإجمالي حجم ملفات الفيديو هو 100 ميجابايت لضمان المعالجة السلسة.",
                 aboutHeading: "لماذا تختار أداة دمج الفيديو الخاصة بنا؟",
-                aboutDesc: "صُممت خصيصاً لتمكينك من دمج المقاطع فوراً من متصفحك مع حماية كاملة لخصوصيتك محلياً.",
+                aboutDesc: "صُممت خصيصاً لتمكينك من dمج المقاطع فوراً من متصفحك مع حماية كاملة لخصوصيتك محلياً.",
                 footerDesc: "الحل الأفضل لقص ودمج مقاطع الفيديو فوراً بدون تثبيت معقد.",
                 footerProd: "المنتج",
                 footerHelp: "الدعم",
@@ -1559,75 +1552,56 @@
             if (sectionId === 'upload-area') target.classList.add('flex');
         }
 
+        const { createFFmpeg, fetchFile } = FFmpeg;
         mergeBtn.addEventListener('click', async () => {
             if (selectedFiles.length === 0) return;
             showSection('processing-area');
-
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
             const statusText = document.getElementById('process-status');
 
             try {
-                statusText.textContent = 'Loading mesin GitHub...';
-                
-                // IMPORT BARU YANG TIDAK AKAN UNDEFINED LAGI
-                const { FFmpeg } = await import('@ffmpeg/ffmpeg');
-                const { fetchFile } = await import('@ffmpeg/util');
-                
-                const ffmpeg = new FFmpeg();
-                ffmpeg.on('progress', ({ progress }) => {
-                    const pct = 10 + Math.round(progress * 90);
-                    progressBar.style.width = pct + '%';
-                    progressText.textContent = pct + '%';
+                const ffmpeg = createFFmpeg({ 
+                    log: false,
+                    corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
                 });
+                statusText.textContent = 'Loading...';
+                await ffmpeg.load();
 
-                await ffmpeg.load({
-                    coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
-                });
-
-                const totalDuration = selectedFiles.reduce((a, c) => a + (c.trimEnd - c.trimStart), 0);
                 const trimmedFiles = [];
-
-                for (let i = 0; i < selectedFiles.length; i++) {
+                for (let i=0; i<selectedFiles.length; i++) {
                     const item = selectedFiles[i];
                     statusText.textContent = `Memotong ${i+1}/${selectedFiles.length}...`;
-                    await ffmpeg.writeFile(`input${i}`, await fetchFile(item.file));
-                    await ffmpeg.exec([
+                    ffmpeg.FS('writeFile', `input${i}`, await fetchFile(item.file));
+                    await ffmpeg.run(
                         '-ss', String(item.trimStart),
                         '-t', String(item.trimEnd - item.trimStart),
                         '-i', `input${i}`,
-                        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
-                        '-c:a', 'aac', '-b:a', '128k',
+                        '-c:v','libx264','-pix_fmt','yuv420p','-r','30',
+                        '-c:a','aac','-b:a','128k',
                         `trim${i}.mp4`
-                    ]);
+                    );
                     trimmedFiles.push(`trim${i}.mp4`);
                 }
 
-                const concatList = trimmedFiles.map(f => `file '${f}'`).join('\n');
-                await ffmpeg.writeFile('concat.txt', concatList);
-                statusText.textContent = 'Menggabungkan (durasi akan pas)...';
-                
-                await ffmpeg.exec([
-                    '-f', 'concat', '-safe', '0', '-i', 'concat.txt',
-                    '-c', 'copy', '-movflags', '+faststart',
-                    'output.mp4'
-                ]);
+                const concatList = trimmedFiles.map(f=>`file '${f}'`).join('\n');
+                ffmpeg.FS('writeFile', 'concat.txt', concatList);
+                statusText.textContent = 'Menggabungkan...';
+                await ffmpeg.run('-f','concat','-safe','0','-i','concat.txt','-c','copy','-movflags','+faststart','output.mp4');
 
-                const data = await ffmpeg.readFile('output.mp4');
-                const finalBlob = new Blob([data.buffer], { type: 'video/mp4' });
-                
+                const data = ffmpeg.FS('readFile', 'output.mp4');
+                const finalBlob = new Blob([data.buffer], {type:'video/mp4'});
                 const btn = document.getElementById('download-btn');
                 btn.href = URL.createObjectURL(finalBlob);
                 btn.download = `GabungVideo_${Date.now()}.mp4`;
-
-                progressBar.style.width = '100%'; progressText.textContent = '100%';
-                statusText.textContent = `Selesai! Durasi ${totalDuration.toFixed(1)}s - Ada suara - Siap Snack Video`;
+                
+                progressBar.style.width='100%'; progressText.textContent='100%';
+                statusText.textContent='Selesai - Durasi pas - Ada suara';
                 showSection('result-area');
 
-            } catch (err) {
-                console.error(err);
-                statusText.textContent = 'Error: ' + err.message;
-                alert('GAGAL: ' + err.message);
+            } catch(err){
+                alert('GAGAL: '+err.message);
+                statusText.textContent = 'Gagal: '+err.message;
             }
         });
 
