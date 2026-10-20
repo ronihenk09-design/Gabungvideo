@@ -71,35 +71,47 @@
 }
 </script>
 
-    <!-- FONT, TAMPILAN (CSS), DAN TAILWIND (JANGAN DIHAPUS) -->
+    <!-- PENGGANTIAN TAILWIND CSS MENJADI VERSI STATIC (2.2.19) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: {
-                        brand: {
-                            blue: '#2563eb',
-                            purple: '#9333ea',
-                            navy: '#0f172a',
-                            light: '#f8fafc',
-                        }
-                    },
-                    boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(37,99,235,0.1)',
-                        'glow': '0 0 20px rgba(147,51,234,0.3)',
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        body { background-color: #f8fafc; overflow-x: hidden; }
+        body { background-color: #f8fafc; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+        
+        /* -----------------------------------------------------------
+           POLYFILL CUSTOM TEMA & KELAS JIT AGAR TAMPILAN TIDAK RUSAK
+           ----------------------------------------------------------- */
+        html.scroll-smooth { scroll-behavior: smooth; }
+        .text-brand-navy { color: #0f172a; }
+        .bg-brand-navy { background-color: #0f172a; }
+        .text-brand-blue { color: #2563eb; }
+        .bg-brand-blue { background-color: #2563eb; }
+        .text-brand-purple { color: #9333ea; }
+        .bg-brand-purple { background-color: #9333ea; }
+        .border-brand-blue { border-color: #2563eb; }
+        .border-t-brand-blue { border-top-color: #2563eb; }
+        .border-t-brand-purple { border-top-color: #9333ea; }
+        .focus\:border-brand-blue:focus { border-color: #2563eb; outline: none; }
+        .focus\:ring-brand-blue:focus { box-shadow: 0 0 0 2px rgba(37,99,235,0.5); }
+        .shadow-soft { box-shadow: 0 10px 40px -10px rgba(37,99,235,0.1); }
+        .shadow-glow { box-shadow: 0 0 20px rgba(147,51,234,0.3); }
+        .bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+        .bg-black\/60 { background-color: rgba(0, 0, 0, 0.6); }
+        .bg-black\/80 { background-color: rgba(0, 0, 0, 0.8); }
+        .bg-blue-50\/50 { background-color: rgba(239, 246, 255, 0.5); }
+        .rounded-\[2rem\] { border-radius: 2rem; }
+        .text-\[11px\] { font-size: 11px; }
+        .text-\[10px\] { font-size: 10px; }
+        .active\:scale-\[0\.98\]:active { transform: scale(0.98); }
+        .active\:scale-95:active { transform: scale(0.95); }
+        .backdrop-blur-sm { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+        .backdrop-blur-md { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+        .max-w-5xl { max-width: 64rem; }
+        .max-w-6xl { max-width: 72rem; }
+        .shrink-0 { flex-shrink: 0; }
+        /* ----------------------------------------------------------- */
+
         .gradient-text {
             background: linear-gradient(135deg, #2563eb, #9333ea);
             -webkit-background-clip: text;
