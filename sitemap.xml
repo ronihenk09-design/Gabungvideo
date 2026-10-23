@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- HOME - PRIORITY 1.0 -->
   <url>
     <loc>https://gabungvideo.online/</loc>
     <lastmod>2026-10-23</lastmod>
@@ -8,20 +7,31 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- PILLAR LAMA -->
   <url>
     <loc>https://gabungvideo.online/cara-gabung-video.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://gabungvideo.online/cara-gabung-video-super-seo.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://gabungvideo.online/cara-gabung-video-di-hp.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- SUPER SEO KILLER - BARU UPLOAD - PRIORITY PALING TINGGI -->
   <url>
-    <loc>https://gabungvideo.online/cara-gabung-video-super-seo.html</loc>
+    <loc>https://gabungvideo.online/cara-gabung-video-tiktok.html</loc>
     <lastmod>2026-10-23</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
-
 </urlset>
