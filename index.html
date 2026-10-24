@@ -599,47 +599,7 @@
             updateUI(); // Segarkan tampilan durasi di daftar video
         }
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker Terdaftar!'))
-                    .catch(err => console.log('Gagal mendaftar Service Worker', err));
-            });
-        }
-
-        const pwaInstallContainer = document.getElementById('pwa-install-container');
-        const pwaInstallBtn = document.getElementById('pwa-install-btn');
-        const pwaCloseBtn = document.getElementById('pwa-close-btn');
-        let deferredPrompt;
-
-        setTimeout(() => {
-            pwaInstallContainer.classList.remove('hidden');
-            pwaInstallContainer.classList.add('flex', 'banner-masuk');
-        }, 2000);
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e; 
-        });
-
-        pwaCloseBtn.addEventListener('click', () => {
-            pwaInstallContainer.classList.add('hidden');
-            pwaInstallContainer.classList.remove('flex');
-        });
-
-        pwaInstallBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    pwaInstallContainer.classList.add('hidden');
-                }
-                deferredPrompt = null;
-            } else {
-                alert("Cara Memasang Aplikasi:\n\n1. Ketuk ikon titik tiga (⋮) di sudut kanan atas browser HP Anda.\n2. Pilih menu 'Tambahkan ke Layar Utama' atau 'Install App'.\n3. Pintasan GabungVideo akan langsung terpasang di menu HP Anda!");
-                pwaInstallContainer.classList.add('hidden');
-            }
-        });
+        
 
         const MAX_FILE_SIZE_MB = 500;
         let selectedFiles = []; 
