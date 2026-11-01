@@ -1,15 +1,23 @@
-
 User-agent: *
 Allow: /
-Sitemap: https://gabungvideo.online/sitemap.xml
 
+# Biar Googlebot fokus crawl artikel, jangan buang waktu crawl file git
 User-agent: Googlebot
 Allow: /
-Sitemap: https://gabungvideo.online/sitemap.xml
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /*.log$
 
-User-agent: Bingbot
+# Biar gambar & video kamu juga ke-index (penting buat artikel video)
+User-agent: Googlebot-Image
 Allow: /
-Crawl-delay: 0.9
+
+User-agent: Googlebot-Video
+Allow: /
+
+# Sitemap utama - WAJIB pakai domain asli
 Sitemap: https://gabungvideo.online/sitemap.xml
 
-Host: https://gabungvideo.online
+# Kalau nanti kamu bikin sitemap video terpisah
+# Sitemap: https://gabungvideo.online/video-sitemap.xml
