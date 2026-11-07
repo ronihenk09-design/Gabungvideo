@@ -975,7 +975,7 @@
                 initVid.onerror = resolve; 
             });
 
-            setTimeout(() => { recorder.start(); }, 100);
+            recorder.start();
             
             let totalVideoDuration = 0;
             for(let item of selectedFiles) totalVideoDuration += (item.trimEnd - item.trimStart);
