@@ -1254,7 +1254,13 @@
             video.style.pointerEvents = 'none';
             video.style.zIndex = '-9999';
             document.body.appendChild(video);
-
+            // FIX THUMBNAIL HITAM KHUSUS VIDEO + TEKS
+            await video.play();
+            await new Promise(r => setTimeout(r, 500));
+            video.currentTime = 0.1;
+            await new Promise(r => { video.onseeked = r; });
+            await new Promise(r => setTimeout(r, 300));
+            video.muted = false;
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             await audioCtx.resume();
             const audioDest = audioCtx.createMediaStreamDestination();
@@ -1376,11 +1382,11 @@
                     if(document.body.contains(video)) document.body.removeChild(video);
                 }
             };
-
-            recorder.start();
+   
             video.play().catch(e => console.error(e));
+            await new Promise(r => setTimeout(r, 300));
             requestAnimationFrame(renderFrame);
-
+            recorder.start();
             const finalBlobWithText = await recordingFinished;
             finalBlobOriginal = finalBlobWithText; 
             const finalUrlWithText = URL.createObjectURL(finalBlobWithText);
