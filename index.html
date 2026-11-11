@@ -424,7 +424,36 @@
                         </a>
                     </div>
                 </div>
+  <!-- WATERMARK / LOGO USER SENDIRI -->
+<div class="mt-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+  <label class="text-[11px] font-bold text-slate-600 block mb-1">Watermark / Logo Kamu (Opsional)</label>
+  <p class="text-[11px] text-slate-400 mb-2">Logo kamu sendiri, bukan logo gabungvideo. Kalau kosong, video tanpa watermark.</p>
+  
+  <div class="flex gap-2 items-center">
+    <label for="watermark-input" class="flex-1 text-center text-xs font-bold bg-slate-100 hover:bg-slate-200 py-2.5 rounded-lg cursor-pointer border border-dashed border-slate-300">
+      <i class="fas fa-image"></i> Pilih Logo / Watermark
+    </label>
+    <input type="file" id="watermark-input" class="hidden" accept="image/*">
+    <button id="watermark-remove" class="hidden text-xs bg-red-50 text-red-500 px-3 py-2.5 rounded-lg font-bold">Hapus</button>
+  </div>
 
+  <div id="watermark-preview-wrap" class="hidden mt-2 flex items-center gap-2 bg-slate-50 p-2 rounded-lg">
+    <img id="watermark-preview" class="w-10 h-10 object-contain bg-white rounded border">
+    <span id="watermark-name" class="text-[11px] text-slate-600 truncate flex-1">logo.png</span>
+    <span class="text-[10px] bg-green-100 text-green-600 px-2 py-1 rounded-full font-bold">Aktif</span>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3 mt-3">
+    <div>
+      <label class="text-[11px] font-bold text-slate-600 block mb-1">Ukuran: <span id="watermark-size-label">80px</span></label>
+      <input id="watermark-size" type="range" min="30" max="200" value="80" class="w-full accent-brand-blue">
+    </div>
+    <div>
+      <label class="text-[11px] font-bold text-slate-600 block mb-1">Transparan: <span id="watermark-opacity-label">70%</span></label>
+      <input id="watermark-opacity" type="range" min="10" max="100" value="70" class="w-full accent-brand-blue">
+    </div>
+  </div>
+</div>
                 <button class="mt-8 text-sm font-medium text-slate-400 hover:text-brand-blue transition-colors block mx-auto underline" onclick="resetApp()">
                     Mulai Buat Proyek Baru
                 </button>
@@ -667,7 +696,54 @@
         const MAX_FILE_SIZE_MB = 500;
         let selectedFiles = []; 
         let totalBytes = 0;
-        
+        // WATERMARK / LOGO USER SENDIRI
+let watermarkImg = null;
+let watermarkSize = 80;
+let watermarkOpacity = 0.7;
+
+const watermarkInput = document.getElementById('watermark-input');
+if (watermarkInput) {
+  watermarkInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      watermarkImg = img;
+      document.getElementById('watermark-preview').src = url;
+      document.getElementById('watermark-name').textContent = file.name;
+      document.getElementById('watermark-preview-wrap').classList.remove('hidden');
+      document.getElementById('watermark-remove').classList.remove('hidden');
+    };
+    img.src = url;
+  });
+}
+
+const watermarkRemove = document.getElementById('watermark-remove');
+if (watermarkRemove) {
+  watermarkRemove.addEventListener('click', () => {
+    watermarkImg = null;
+    watermarkInput.value = '';
+    document.getElementById('watermark-preview-wrap').classList.add('hidden');
+    watermarkRemove.classList.add('hidden');
+  });
+}
+
+const watermarkSizeEl = document.getElementById('watermark-size');
+if (watermarkSizeEl) {
+  watermarkSizeEl.addEventListener('input', (e) => {
+    watermarkSize = parseInt(e.target.value);
+    document.getElementById('watermark-size-label').textContent = watermarkSize + 'px';
+  });
+}
+
+const watermarkOpacityEl = document.getElementById('watermark-opacity');
+if (watermarkOpacityEl) {
+  watermarkOpacityEl.addEventListener('input', (e) => {
+    watermarkOpacity = parseInt(e.target.value) / 100;
+    document.getElementById('watermark-opacity-label').textContent = e.target.value + '%';
+  });
+      }
         let finalBlobOriginal = null;
         let finalExtOriginal = 'webm';
 
@@ -1305,7 +1381,15 @@
                     ctx.fillStyle = '#000000';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
+                  // GAMBAR WATERMARK / LOGO USER
+                  if (watermarkImg) {
+                  ctx.save();
+                  ctx.globalAlpha = watermarkOpacity;
+                  const w = watermarkSize;
+                  const h = watermarkImg.height * (w / watermarkImg.width);
+                  ctx.drawImage(watermarkImg, canvas.width - w - 12, canvas.height - h - 12, w, h);
+                  ctx.restore();
+                   }
                     // LOGIKA MENGGAMBAR TEKS SESUAI DURASI MULAI & SELESAI
                     const stInput = document.getElementById('simpleText');
                     if(stInput && stInput.value.trim() !== '') {
