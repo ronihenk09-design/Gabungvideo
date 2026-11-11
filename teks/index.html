@@ -1104,7 +1104,8 @@
                 video.currentTime = 0.1;
                 await new Promise(r => { video.onseeked = r; });
                 await new Promise(r => setTimeout(r, 300));
-                video.muted = false;
+                video.muted = true;
+                video.volume = 0;
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 await audioCtx.resume();
                 const audioDest = audioCtx.createMediaStreamDestination();
@@ -1117,7 +1118,7 @@
                     video.load();
                 });
                 await video.play();
-                video.muted = false;
+                video.muted = true;
                 await new Promise(r => setTimeout(r, 500));
                 const canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth || 720;
