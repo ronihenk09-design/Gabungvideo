@@ -499,17 +499,20 @@
     <script>
         function openModal(title, content) {
             event.preventDefault();
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-content').innerHTML = `<p>${content}</p>`;
-            document.getElementById('info-modal').classList.remove('hidden');
+            const titleEl = document.getElementById('modal-title');
+            const contentEl = document.getElementById('modal-content');
+            const modalEl = document.getElementById('info-modal');
+            if(titleEl && contentEl && modalEl) {
+                titleEl.textContent = title;
+                contentEl.innerHTML = `<p>${content}</p>`;
+                modalEl.classList.remove('hidden');
+            }
         }
 
         function closeModal() {
-            document.getElementById('info-modal').classList.add('hidden');
+            const modalEl = document.getElementById('info-modal');
+            if(modalEl) modalEl.classList.add('hidden');
         }
-
-        // FUNGSI MODAL POTONG (TRIM) VIDEO VISUAL
-        
 
         const MAX_FILE_SIZE_MB = 500;
         let selectedFiles = []; 
@@ -579,21 +582,27 @@
         };
 
         const updateUI = () => {
-            fileList.innerHTML = '';
+            if (fileList) fileList.innerHTML = '';
             totalBytes = 0;
 
             if (selectedFiles.length === 0) {
-                videoListArea.classList.add('hidden');
-                dropZone.classList.remove('hidden');
-                dropZone.classList.add('flex');
-                errorMsg.classList.add('hidden');
-                errorMsg.classList.remove('flex');
+                if(videoListArea) videoListArea.classList.add('hidden');
+                if(dropZone) {
+                    dropZone.classList.remove('hidden');
+                    dropZone.classList.add('flex');
+                }
+                if(errorMsg) {
+                    errorMsg.classList.add('hidden');
+                    errorMsg.classList.remove('flex');
+                }
                 return;
             }
 
-            dropZone.classList.add('hidden');
-            dropZone.classList.remove('flex');
-            videoListArea.classList.remove('hidden');
+            if(dropZone) {
+                dropZone.classList.add('hidden');
+                dropZone.classList.remove('flex');
+            }
+            if(videoListArea) videoListArea.classList.remove('hidden');
             
             for (let i = 0; i < selectedFiles.length; i++) {
                 const item = selectedFiles[i];
@@ -610,46 +619,56 @@
                     ? `<span class="text-green-500">Durasi Penuh</span>` 
                     : `<span class="text-amber-500"><i class="fas fa-cut text-[10px]"></i> ${item.trimStart.toFixed(1)}s - ${item.trimEnd.toFixed(1)}s</span>`;
 
-                const div = document.createElement('div');
-                div.className = 'flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl shadow-sm mb-3 hover:shadow-md transition-shadow';
-                div.innerHTML = `
-                    <div class="w-14 h-14 bg-slate-800 rounded-lg flex-shrink-0 relative overflow-hidden flex items-center justify-center text-white">
-                        ${thumbHTML}
-                    </div>
-                    <div class="flex-grow overflow-hidden">
-                        <h4 class="font-medium text-sm text-brand-navy truncate">${file.name}</h4>
-                        <p class="text-xs text-slate-400 mt-0.5">${formatBytes(file.size)} • ${trimText}</p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-1">
-                        <button class="text-slate-400 hover:text-brand-blue transition-colors bg-slate-50 p-2 rounded-lg" onclick="openTrimModal(${i})" title="Potong Video">
-                            <i class="fas fa-cut"></i>
-                        </button>
-                        <button class="text-slate-400 hover:text-red-500 transition-colors bg-slate-50 p-2 rounded-lg" onclick="removeFile(${i})" title="Hapus Video">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                `;
-                fileList.appendChild(div);
+                if(fileList) {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl shadow-sm mb-3 hover:shadow-md transition-shadow';
+                    div.innerHTML = `
+                        <div class="w-14 h-14 bg-slate-800 rounded-lg flex-shrink-0 relative overflow-hidden flex items-center justify-center text-white">
+                            ${thumbHTML}
+                        </div>
+                        <div class="flex-grow overflow-hidden">
+                            <h4 class="font-medium text-sm text-brand-navy truncate">${file.name}</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">${formatBytes(file.size)} • ${trimText}</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-1">
+                            <button class="text-slate-400 hover:text-brand-blue transition-colors bg-slate-50 p-2 rounded-lg" onclick="openTrimModal(${i})" title="Potong Video">
+                                <i class="fas fa-cut"></i>
+                            </button>
+                            <button class="text-slate-400 hover:text-red-500 transition-colors bg-slate-50 p-2 rounded-lg" onclick="removeFile(${i})" title="Hapus Video">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+                    fileList.appendChild(div);
+                }
             }
 
-            fileCountEl.textContent = selectedFiles.length;
-            totalSizeEl.textContent = formatBytes(totalBytes);
+            if(fileCountEl) fileCountEl.textContent = selectedFiles.length;
+            if(totalSizeEl) totalSizeEl.textContent = formatBytes(totalBytes);
 
             const totalSizeMB = totalBytes / (1024 * 1024);
             if (totalSizeMB > MAX_FILE_SIZE_MB) {
-                totalSizeEl.classList.replace('text-brand-blue', 'text-red-600');
-                totalSizeEl.classList.replace('bg-blue-50', 'bg-red-50');
-                totalSizeEl.classList.replace('border-blue-100', 'border-red-100');
-                mergeBtn.disabled = true;
-                errorMsg.classList.remove('hidden');
-                errorMsg.classList.add('flex');
+                if(totalSizeEl) {
+                    totalSizeEl.classList.replace('text-brand-blue', 'text-red-600');
+                    totalSizeEl.classList.replace('bg-blue-50', 'bg-red-50');
+                    totalSizeEl.classList.replace('border-blue-100', 'border-red-100');
+                }
+                if(mergeBtn) mergeBtn.disabled = true;
+                if(errorMsg) {
+                    errorMsg.classList.remove('hidden');
+                    errorMsg.classList.add('flex');
+                }
             } else {
-                totalSizeEl.classList.replace('text-red-600', 'text-brand-blue');
-                totalSizeEl.classList.replace('bg-red-50', 'bg-blue-50');
-                totalSizeEl.classList.replace('border-red-100', 'border-blue-100');
-                mergeBtn.disabled = false;
-                errorMsg.classList.add('hidden');
-                errorMsg.classList.remove('flex');
+                if(totalSizeEl) {
+                    totalSizeEl.classList.replace('text-red-600', 'text-brand-blue');
+                    totalSizeEl.classList.replace('bg-red-50', 'bg-blue-50');
+                    totalSizeEl.classList.replace('border-red-100', 'border-blue-100');
+                }
+                if(mergeBtn) mergeBtn.disabled = false;
+                if(errorMsg) {
+                    errorMsg.classList.add('hidden');
+                    errorMsg.classList.remove('flex');
+                }
             }
         };
 
@@ -658,276 +677,296 @@
             updateUI();
         };
 
-        dropZone.addEventListener('click', () => fileInput.click());
-        fileInput.addEventListener('change', function() { handleFiles(this.files); });
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
-        });
-        dropZone.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+        if(dropZone && fileInput) {
+            dropZone.addEventListener('click', () => fileInput.click());
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+            });
+            dropZone.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+        }
+
+        if(fileInput) {
+            fileInput.addEventListener('change', function() { handleFiles(this.files); });
+        }
 
         async function handleFiles(files) {
-        const newFiles = Array.from(files).filter(file => file.type.startsWith('video/'));
-        if (newFiles.length === 0) return;
-        finalBlobOriginal = newFiles[0];
-        const finalUrl = URL.createObjectURL(finalBlobOriginal);
-        document.getElementById('simpleVideo').src = finalUrl;
+            const newFiles = Array.from(files).filter(file => file.type.startsWith('video/'));
+            if (newFiles.length === 0) return;
+            finalBlobOriginal = newFiles[0];
+            const finalUrl = URL.createObjectURL(finalBlobOriginal);
+            const simpleVideoEl = document.getElementById('simpleVideo');
+            if(simpleVideoEl) simpleVideoEl.src = finalUrl;
+            
+            ['upload-area', 'loading-media-area', 'processing-area'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+            });
+            const resultArea = document.getElementById('result-area');
+            if(resultArea) resultArea.classList.remove('hidden');
+            updateSimple();
+        }
         
-        ['upload-area', 'loading-media-area', 'processing-area'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
-        });
-        document.getElementById('result-area').classList.remove('hidden');
-        updateSimple();
-    }function showSection(sectionId) {
+        function showSection(sectionId) {
             ['upload-area', 'video-list-area', 'loading-media-area', 'processing-area', 'result-area'].forEach(id => {
                 const el = document.getElementById(id);
-                el.classList.add('hidden');
-                if(id === 'upload-area') el.classList.remove('flex');
+                if(el) {
+                    el.classList.add('hidden');
+                    if(id === 'upload-area') el.classList.remove('flex');
+                }
             });
             const target = document.getElementById(sectionId);
-            target.classList.remove('hidden');
-            if (sectionId === 'upload-area') target.classList.add('flex');
+            if(target) {
+                target.classList.remove('hidden');
+                if (sectionId === 'upload-area') target.classList.add('flex');
+            }
         }
 
         // ==========================================
         // PROSES PERTAMA: MENGGABUNGKAN VIDEO (Tanpa Text)
         // ==========================================
-        mergeBtn.addEventListener('click', async () => {
-            if (selectedFiles.length === 0) return;
-            
-            showSection('processing-area');
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-            const statusText = document.getElementById('process-status');
-            const timerValue = document.getElementById('timer-value');
-            
-            statusText.textContent = "Proses berjalan otomatis, harap biarkan layar tetap menyala...";
+        if(mergeBtn) {
+            mergeBtn.addEventListener('click', async () => {
+                if (selectedFiles.length === 0) return;
+                
+                showSection('processing-area');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                const statusText = document.getElementById('process-status');
+                const timerValue = document.getElementById('timer-value');
+                
+                if(statusText) statusText.textContent = "Proses berjalan otomatis, harap biarkan layar tetap menyala...";
 
-            const startTime = Date.now();
-            const resolutionSelect = document.getElementById('resolution-select');
-            const MAX_DIMENSION = parseInt(resolutionSelect.value) || 720;
-            
-            let videoBitrate = 2500000;
-            if (MAX_DIMENSION === 480) videoBitrate = 1200000;
-            else if (MAX_DIMENSION === 1080) videoBitrate = 5000000;
+                const startTime = Date.now();
+                const resolutionSelect = document.getElementById('resolution-select');
+                const MAX_DIMENSION = resolutionSelect ? (parseInt(resolutionSelect.value) || 720) : 720;
+                
+                let videoBitrate = 2500000;
+                if (MAX_DIMENSION === 480) videoBitrate = 1200000;
+                else if (MAX_DIMENSION === 1080) videoBitrate = 5000000;
 
-            const firstVideoMeta = selectedFiles[0].meta;
-            const canvas = document.createElement('canvas');
-            
-            let origW = firstVideoMeta.width || 1280;
-            let origH = firstVideoMeta.height || 720;
+                const firstVideoMeta = selectedFiles[0].meta;
+                const canvas = document.createElement('canvas');
+                
+                let origW = firstVideoMeta.width || 1280;
+                let origH = firstVideoMeta.height || 720;
 
-            if (origW > origH) {
-                canvas.width = Math.min(origW, MAX_DIMENSION);
-                canvas.height = Math.min(origH, Math.round((MAX_DIMENSION / origW) * origH));
-            } else {
-                canvas.height = Math.min(origH, MAX_DIMENSION);
-                canvas.width = Math.min(origW, Math.round((MAX_DIMENSION / origH) * origW));
-            }
-
-            const ctx = canvas.getContext('2d');
-
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            await audioCtx.resume(); 
-            const audioDest = audioCtx.createMediaStreamDestination();
-
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            gainNode.gain.value = 0; 
-            oscillator.connect(gainNode);
-            gainNode.connect(audioDest);
-            oscillator.start();
-
-            const canvasStream = canvas.captureStream(24); 
-            const combinedStream = new MediaStream([
-                ...canvasStream.getVideoTracks(),
-                ...audioDest.stream.getAudioTracks()
-            ]);
-
-            let selectedMimeType = '';
-            let ext = 'webm';
-            const mimeTypes = [
-                'video/mp4;codecs=avc1,mp4a.40.2',
-                'video/mp4;codecs=avc1',
-                'video/mp4',
-                'video/webm;codecs=h264,opus',
-                'video/webm;codecs=vp9,opus',
-                'video/webm;codecs=vp8,opus',
-                'video/webm'
-            ];
-
-            for (let t of mimeTypes) {
-                if (MediaRecorder.isTypeSupported(t)) {
-                    selectedMimeType = t;
-                    if (t.includes('mp4')) ext = 'mp4';
-                    break;
+                if (origW > origH) {
+                    canvas.width = Math.min(origW, MAX_DIMENSION);
+                    canvas.height = Math.min(origH, Math.round((MAX_DIMENSION / origW) * origH));
+                } else {
+                    canvas.height = Math.min(origH, MAX_DIMENSION);
+                    canvas.width = Math.min(origW, Math.round((MAX_DIMENSION / origH) * origW));
                 }
-            }
-            if(!selectedMimeType) selectedMimeType = 'video/webm';
 
-            const recorderOptions = {
-                mimeType: selectedMimeType,
-                videoBitsPerSecond: videoBitrate, 
-                audioBitsPerSecond: 128000   
-            };
+                const ctx = canvas.getContext('2d');
 
-            const recorder = new MediaRecorder(combinedStream, recorderOptions);
-            const chunks = [];
-            recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                await audioCtx.resume(); 
+                const audioDest = audioCtx.createMediaStreamDestination();
 
-            const recordingFinished = new Promise(resolve => {
-                recorder.onstop = () => resolve(new Blob(chunks, { type: selectedMimeType }));
-            });
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.value = 0; 
+                oscillator.connect(gainNode);
+                gainNode.connect(audioDest);
+                oscillator.start();
 
-            await new Promise((resolve) => {
-                const initVid = document.createElement('video');
-                initVid.src = URL.createObjectURL(selectedFiles[0].file);
-                initVid.muted = true;
-                initVid.playsInline = true;
+                const canvasStream = canvas.captureStream(24); 
+                const combinedStream = new MediaStream([
+                    ...canvasStream.getVideoTracks(),
+                    ...audioDest.stream.getAudioTracks()
+                ]);
 
-                initVid.onloadedmetadata = () => { initVid.currentTime = selectedFiles[0].trimStart > 0 ? selectedFiles[0].trimStart : 0.05; };
-                initVid.onseeked = () => {
-                    ctx.fillStyle = '#000000';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    const vRatio = initVid.videoWidth / initVid.videoHeight;
-                    const cRatio = canvas.width / canvas.height;
-                    let dw, dh, sx, sy;
-                    if (vRatio > cRatio) { dw = canvas.width; dh = canvas.width / vRatio; sx = 0; sy = (canvas.height - dh) / 2; } 
-                    else { dh = canvas.height; dw = canvas.height * vRatio; sx = (canvas.width - dw) / 2; sy = 0; }
-                    ctx.drawImage(initVid, sx, sy, dw, dh);
-                    resolve();
+                let selectedMimeType = '';
+                let ext = 'webm';
+                const mimeTypes = [
+                    'video/mp4;codecs=avc1,mp4a.40.2',
+                    'video/mp4;codecs=avc1',
+                    'video/mp4',
+                    'video/webm;codecs=h264,opus',
+                    'video/webm;codecs=vp9,opus',
+                    'video/webm;codecs=vp8,opus',
+                    'video/webm'
+                ];
+
+                for (let t of mimeTypes) {
+                    if (MediaRecorder.isTypeSupported(t)) {
+                        selectedMimeType = t;
+                        if (t.includes('mp4')) ext = 'mp4';
+                        break;
+                    }
+                }
+                if(!selectedMimeType) selectedMimeType = 'video/webm';
+
+                const recorderOptions = {
+                    mimeType: selectedMimeType,
+                    videoBitsPerSecond: videoBitrate, 
+                    audioBitsPerSecond: 128000   
                 };
-                initVid.onerror = resolve; 
-            });
 
-            recorder.start();
-            
-            let totalVideoDuration = 0;
-            for(let item of selectedFiles) totalVideoDuration += (item.trimEnd - item.trimStart);
-            let elapsedDuration = 0;
+                const recorder = new MediaRecorder(combinedStream, recorderOptions);
+                const chunks = [];
+                recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
-            for (let i = 0; i < selectedFiles.length; i++) {
-                const item = selectedFiles[i];
-                const file = item.file;
-                statusText.textContent = `Memproses Video ${i + 1} dari ${selectedFiles.length}...`;
+                const recordingFinished = new Promise(resolve => {
+                    recorder.onstop = () => resolve(new Blob(chunks, { type: selectedMimeType }));
+                });
 
                 await new Promise((resolve) => {
-                    const video = document.createElement('video');
-                    video.src = URL.createObjectURL(file);
-                    
-                    video.muted = false;
-                    video.volume = 1.0;
-                    video.playsInline = true;
-                    
-                    video.style.position = 'fixed';
-                    video.style.top = '0';
-                    video.style.left = '0';
-                    video.style.opacity = '0';
-                    video.style.width = '1px';
-                    video.style.height = '1px';
-                    video.style.pointerEvents = 'none';
-                    video.style.zIndex = '-9999';
-                    document.body.appendChild(video);
-                    
-                    const sourceNode = audioCtx.createMediaElementSource(video);
-                    sourceNode.connect(audioDest);
+                    const initVid = document.createElement('video');
+                    initVid.src = URL.createObjectURL(selectedFiles[0].file);
+                    initVid.muted = true;
+                    initVid.playsInline = true;
 
-                    let isResolved = false;
-
-                    const renderFrame = () => {
-                        if(isResolved) return;
-
-                        if (!video.paused && !video.ended && video.currentTime <= item.trimEnd) {
-                            ctx.fillStyle = '#000000';
-                            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                            const videoRatio = video.videoWidth / video.videoHeight;
-                            const canvasRatio = canvas.width / canvas.height;
-                            let drawWidth, drawHeight, startX, startY;
-
-                            if (videoRatio > canvasRatio) { drawWidth = canvas.width; drawHeight = canvas.width / videoRatio; startX = 0; startY = (canvas.height - drawHeight) / 2; } 
-                            else { drawHeight = canvas.height; drawWidth = canvas.height * videoRatio; startX = (canvas.width - drawWidth) / 2; startY = 0; }
-
-                            ctx.drawImage(video, startX, startY, drawWidth, drawHeight);
-
-                            const currentTotal = elapsedDuration + Math.max(0, (video.currentTime - item.trimStart));
-                            const percent = Math.min(100, Math.round((currentTotal / totalVideoDuration) * 100));
-                            progressBar.style.width = `${percent}%`;
-                            progressText.textContent = `${percent}%`;
-
-                            if (percent > 1) {
-                                const elapsedTimeSec = (Date.now() - startTime) / 1000;
-                                const estimatedTotalSec = (elapsedTimeSec / percent) * 100;
-                                const remainingSec = Math.max(0, Math.round(estimatedTotalSec - elapsedTimeSec));
-                                const mins = Math.floor(remainingSec / 60);
-                                const secs = remainingSec % 60;
-                                timerValue.textContent = `${mins} menit ${secs} detik lagi`;
-                            }
-
-                            requestAnimationFrame(renderFrame);
-                        } else if (video.currentTime > item.trimEnd || video.ended) {
-                            isResolved = true;
-                            elapsedDuration += (item.trimEnd - item.trimStart);
-                            video.pause();
-                            sourceNode.disconnect(); 
-                            URL.revokeObjectURL(video.src);
-                            if(document.body.contains(video)) document.body.removeChild(video);
-                            resolve();
-                        }
+                    initVid.onloadedmetadata = () => { initVid.currentTime = selectedFiles[0].trimStart > 0 ? selectedFiles[0].trimStart : 0.05; };
+                    initVid.onseeked = () => {
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        const vRatio = initVid.videoWidth / initVid.videoHeight;
+                        const cRatio = canvas.width / canvas.height;
+                        let dw, dh, sx, sy;
+                        if (vRatio > cRatio) { dw = canvas.width; dh = canvas.width / vRatio; sx = 0; sy = (canvas.height - dh) / 2; } 
+                        else { dh = canvas.height; dw = canvas.height * vRatio; sx = (canvas.width - dw) / 2; sy = 0; }
+                        ctx.drawImage(initVid, sx, sy, dw, dh);
+                        resolve();
                     };
-
-                    video.onloadedmetadata = () => {
-                        if (item.trimStart > 0) video.currentTime = item.trimStart;
-                        else video.play().catch(e => console.error(e));
-                    };
-                    video.onseeked = () => { if (video.paused && !isResolved) video.play().catch(e => console.error("Play error:", e)); };
-                    video.onplay = () => requestAnimationFrame(renderFrame);
-                    video.onerror = () => {
-                        if(!isResolved) {
-                            isResolved = true;
-                            if(document.body.contains(video)) document.body.removeChild(video);
-                            resolve();
-                        }
-                    }; 
+                    initVid.onerror = resolve; 
                 });
-            }
 
-            oscillator.stop();
-            recorder.stop();
-            
-            finalBlobOriginal = await recordingFinished;
-            finalExtOriginal = ext;
-            const finalUrl = URL.createObjectURL(finalBlobOriginal);
+                recorder.start();
+                
+                let totalVideoDuration = 0;
+                for(let item of selectedFiles) totalVideoDuration += (item.trimEnd - item.trimStart);
+                let elapsedDuration = 0;
 
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const item = selectedFiles[i];
+                    const file = item.file;
+                    if(statusText) statusText.textContent = `Memproses Video ${i + 1} dari ${selectedFiles.length}...`;
+
+                    await new Promise((resolve) => {
+                        const video = document.createElement('video');
+                        video.src = URL.createObjectURL(file);
+                        
+                        video.muted = false;
+                        video.volume = 1.0;
+                        video.playsInline = true;
+                        
+                        video.style.position = 'fixed';
+                        video.style.top = '0';
+                        video.style.left = '0';
+                        video.style.opacity = '0';
+                        video.style.width = '1px';
+                        video.style.height = '1px';
+                        video.style.pointerEvents = 'none';
+                        video.style.zIndex = '-9999';
+                        document.body.appendChild(video);
+                        
+                        const sourceNode = audioCtx.createMediaElementSource(video);
+                        sourceNode.connect(audioDest);
+
+                        let isResolved = false;
+
+                        const renderFrame = () => {
+                            if(isResolved) return;
+
+                            if (!video.paused && !video.ended && video.currentTime <= item.trimEnd) {
+                                ctx.fillStyle = '#000000';
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                                const videoRatio = video.videoWidth / video.videoHeight;
+                                const canvasRatio = canvas.width / canvas.height;
+                                let drawWidth, drawHeight, startX, startY;
+
+                                if (videoRatio > canvasRatio) { drawWidth = canvas.width; drawHeight = canvas.width / videoRatio; startX = 0; startY = (canvas.height - drawHeight) / 2; } 
+                                else { drawHeight = canvas.height; drawWidth = canvas.height * videoRatio; startX = (canvas.width - drawWidth) / 2; startY = 0; }
+
+                                ctx.drawImage(video, startX, startY, drawWidth, drawHeight);
+
+                                const currentTotal = elapsedDuration + Math.max(0, (video.currentTime - item.trimStart));
+                                const percent = Math.min(100, Math.round((currentTotal / totalVideoDuration) * 100));
+                                if(progressBar) progressBar.style.width = `${percent}%`;
+                                if(progressText) progressText.textContent = `${percent}%`;
+
+                                if (percent > 1 && timerValue) {
+                                    const elapsedTimeSec = (Date.now() - startTime) / 1000;
+                                    const estimatedTotalSec = (elapsedTimeSec / percent) * 100;
+                                    const remainingSec = Math.max(0, Math.round(estimatedTotalSec - elapsedTimeSec));
+                                    const mins = Math.floor(remainingSec / 60);
+                                    const secs = remainingSec % 60;
+                                    timerValue.textContent = `${mins} menit ${secs} detik lagi`;
+                                }
+
+                                requestAnimationFrame(renderFrame);
+                            } else if (video.currentTime > item.trimEnd || video.ended) {
+                                isResolved = true;
+                                elapsedDuration += (item.trimEnd - item.trimStart);
+                                video.pause();
+                                sourceNode.disconnect(); 
+                                URL.revokeObjectURL(video.src);
+                                if(document.body.contains(video)) document.body.removeChild(video);
+                                resolve();
+                            }
+                        };
+
+                        video.onloadedmetadata = () => {
+                            if (item.trimStart > 0) video.currentTime = item.trimStart;
+                            else video.play().catch(e => console.error(e));
+                        };
+                        video.onseeked = () => { if (video.paused && !isResolved) video.play().catch(e => console.error("Play error:", e)); };
+                        video.onplay = () => requestAnimationFrame(renderFrame);
+                        video.onerror = () => {
+                            if(!isResolved) {
+                                isResolved = true;
+                                if(document.body.contains(video)) document.body.removeChild(video);
+                                resolve();
+                            }
+                        }; 
+                    });
+                }
+
+                oscillator.stop();
+                recorder.stop();
+                
+                finalBlobOriginal = await recordingFinished;
+                finalExtOriginal = ext;
+            });
+        }
             
 
         // Event listener unduh di bawah teks
         const downloadBtnText = document.getElementById('download-btn-text');
-        downloadBtnText.addEventListener('click', () => {
-            if (downloadBtnText.classList.contains('downloading')) return; 
-            const text2 = document.getElementById('wave-text-2');
-            downloadBtnText.classList.add('downloading');
-            const currentExt = downloadBtnText.download.split('.').pop() || 'mp4';
-            text2.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyiapkan File...';
-            setTimeout(() => {
-                text2.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil Disimpan!';
+        if(downloadBtnText) {
+            downloadBtnText.addEventListener('click', () => {
+                if (downloadBtnText.classList.contains('downloading')) return; 
+                const text2 = document.getElementById('wave-text-2');
+                downloadBtnText.classList.add('downloading');
+                const currentExt = downloadBtnText.download.split('.').pop() || 'mp4';
+                if(text2) text2.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyiapkan File...';
                 setTimeout(() => {
-                    downloadBtnText.classList.remove('downloading');
-                    text2.innerHTML = `<i class="fas fa-download"></i> Unduh Video + Teks (.${currentExt})`;
-                }, 2500);
-            }, 3000); 
-        });
+                    if(text2) text2.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil Disimpan!';
+                    setTimeout(() => {
+                        downloadBtnText.classList.remove('downloading');
+                        if(text2) text2.innerHTML = `<i class="fas fa-download"></i> Unduh Video + Teks (.${currentExt})`;
+                    }, 2500);
+                }, 3000); 
+            });
+        }
 
         function resetApp() {
             selectedFiles = [];
             finalBlobOriginal = null;
             updateUI();
             showSection('upload-area');
-            document.getElementById('progress-bar').style.width = '0%';
-            document.getElementById('progress-text').textContent = '0%';
-            document.getElementById('resolution-select').value = "720";
-            document.getElementById('simpleText').value = '';
+            const pBar = document.getElementById('progress-bar');
+            if(pBar) pBar.style.width = '0%';
+            const pText = document.getElementById('progress-text');
+            if(pText) pText.textContent = '0%';
+            const rSelect = document.getElementById('resolution-select');
+            if(rSelect) rSelect.value = "720";
+            const sText = document.getElementById('simpleText');
+            if(sText) sText.value = '';
             updateSimple();
         }
 
@@ -950,6 +989,8 @@
         let currentSize = 32;
 
         function updateSimple() {
+            if(!textSize || !sizeLabel || !simpleTextOut || !simpleText || !simpleColor || !simpleMode || !simpleVideo || !startSec || !endSec || !simpleOverlay) return;
+            
             currentSize = parseInt(textSize.value);
             sizeLabel.innerText = currentSize + 'px';
             
@@ -977,226 +1018,237 @@
             }
         }
 
-        textSize.addEventListener('input', updateSimple);
-        btnMinus.onclick = () => { textSize.value = Math.max(12, currentSize - 2); updateSimple(); };
-        btnPlus.onclick = () => { textSize.value = Math.min(100, currentSize + 2); updateSimple(); };
-        [simpleText, startSec, endSec, simpleMode, simpleColor].forEach(el => el.addEventListener('input', updateSimple));
-        simpleVideo.addEventListener('timeupdate', updateSimple);
+        if(textSize) textSize.addEventListener('input', updateSimple);
+        if(btnMinus) btnMinus.onclick = () => { if(textSize) { textSize.value = Math.max(12, currentSize - 2); updateSimple(); } };
+        if(btnPlus) btnPlus.onclick = () => { if(textSize) { textSize.value = Math.min(100, currentSize + 2); updateSimple(); } };
+        
+        [simpleText, startSec, endSec, simpleMode, simpleColor].forEach(el => {
+            if(el) el.addEventListener('input', updateSimple);
+        });
+        if(simpleVideo) simpleVideo.addEventListener('timeupdate', updateSimple);
 
         // DRAG & PINCH ZOOM LOGIC
         let isDragging = false, startX, startY;
-        simpleTextOut.style.pointerEvents = 'auto';
-        simpleTextOut.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].clientX; startY = e.touches[0].clientY;
-        });
-        simpleTextOut.addEventListener('touchmove', (e) => {
-            if(!isDragging) return;
-            const dx = e.touches[0].clientX - startX;
-            const dy = e.touches[0].clientY - startY;
-            simpleTextOut.style.left = `calc(50% + ${dx}px)`;
-            simpleTextOut.style.top = `calc(50% + ${dy}px)`;
-        });
+        if(simpleTextOut) {
+            simpleTextOut.style.pointerEvents = 'auto';
+            simpleTextOut.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+            });
+            simpleTextOut.addEventListener('touchmove', (e) => {
+                if(!isDragging) return;
+                const dx = e.touches[0].clientX - startX;
+                const dy = e.touches[0].clientY - startY;
+                simpleTextOut.style.left = `calc(50% + ${dx}px)`;
+                simpleTextOut.style.top = `calc(50% + ${dy}px)`;
+            });
+        }
 
         let lastDist = 0;
-        simpleOverlay.addEventListener('touchmove', (e) => {
-            if(e.touches.length === 2) {
-                const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-                if(lastDist) {
-                    const diff = (dist - lastDist) / 5;
-                    textSize.value = Math.min(100, Math.max(12, currentSize + diff));
-                    updateSimple();
+        if(simpleOverlay) {
+            simpleOverlay.addEventListener('touchmove', (e) => {
+                if(e.touches.length === 2 && textSize) {
+                    const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                    if(lastDist) {
+                        const diff = (dist - lastDist) / 5;
+                        textSize.value = Math.min(100, Math.max(12, currentSize + diff));
+                        updateSimple();
+                    }
+                    lastDist = dist;
                 }
-                lastDist = dist;
-            }
-        }, {passive:false});
-        simpleOverlay.addEventListener('touchend', () => { isDragging = false; lastDist = 0; });
+            }, {passive:false});
+            simpleOverlay.addEventListener('touchend', () => { isDragging = false; lastDist = 0; });
+        }
 
         const style = document.createElement('style');
         style.innerHTML = `@keyframes marquee { 0%{transform:translate(-50%,-50%) translateX(100%)} 100%{transform:translate(-50%,-50%) translateX(-100%)} } .hidden{display:none!important}`;
         document.head.appendChild(style);
 
         // KLIK TOMBOL TERAPKAN TEKS & RENDER ULANG
-        document.getElementById('apply-text-btn').addEventListener('click', async () => {
-            if (!finalBlobOriginal) return;
+        const applyTextBtn = document.getElementById('apply-text-btn');
+        if(applyTextBtn) {
+            applyTextBtn.addEventListener('click', async () => {
+                if (!finalBlobOriginal) return;
 
-            showSection('processing-area');
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-            const statusText = document.getElementById('process-status');
-            const timerValue = document.getElementById('timer-value');
+                showSection('processing-area');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                const statusText = document.getElementById('process-status');
+                const timerValue = document.getElementById('timer-value');
 
-            statusText.textContent = "Menerapkan Teks ke Video...";
-            progressBar.style.width = '0%';
-            progressText.textContent = '0%';
-            timerValue.textContent = 'Menghitung...';
+                if(statusText) statusText.textContent = "Menerapkan Teks ke Video...";
+                if(progressBar) progressBar.style.width = '0%';
+                if(progressText) progressText.textContent = '0%';
+                if(timerValue) timerValue.textContent = 'Menghitung...';
 
-            const startTime = Date.now();
+                const startTime = Date.now();
 
-            const video = document.createElement('video');
-            video.src = URL.createObjectURL(finalBlobOriginal);
-            video.muted = true;
-            video.volume = 1.0;
-            video.playsInline = true;
-            
-            video.style.position = 'fixed';
-            video.style.top = '0';
-            video.style.left = '-9999px';
-            video.style.opacity = '1';
-            video.style.width = '320px';
-            video.style.height = '180px';
-            video.style.pointerEvents = 'none';
-            video.style.zIndex = '-9999';
-            document.body.appendChild(video);
-            // FIX THUMBNAIL HITAM KHUSUS VIDEO + TEKS
-            await video.play();
-            await new Promise(r => setTimeout(r, 500));
-            video.currentTime = 0.1;
-            await new Promise(r => { video.onseeked = r; });
-            await new Promise(r => setTimeout(r, 300));
-            video.muted = false;
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            await audioCtx.resume();
-            const audioDest = audioCtx.createMediaStreamDestination();
-            const sourceNode = audioCtx.createMediaElementSource(video);
-            sourceNode.connect(audioDest);
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(finalBlobOriginal);
+                video.muted = true;
+                video.volume = 1.0;
+                video.playsInline = true;
+                
+                video.style.position = 'fixed';
+                video.style.top = '0';
+                video.style.left = '-9999px';
+                video.style.opacity = '1';
+                video.style.width = '320px';
+                video.style.height = '180px';
+                video.style.pointerEvents = 'none';
+                video.style.zIndex = '-9999';
+                document.body.appendChild(video);
+                // FIX THUMBNAIL HITAM KHUSUS VIDEO + TEKS
+                await video.play();
+                await new Promise(r => setTimeout(r, 500));
+                video.currentTime = 0.1;
+                await new Promise(r => { video.onseeked = r; });
+                await new Promise(r => setTimeout(r, 300));
+                video.muted = false;
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                await audioCtx.resume();
+                const audioDest = audioCtx.createMediaStreamDestination();
+                const sourceNode = audioCtx.createMediaElementSource(video);
+                sourceNode.connect(audioDest);
 
-            await new Promise(r => {
-                video.onloadedmetadata = () => { if(video.duration > 0) r(); };
-                setTimeout(r, 1000); 
-                video.load();
-            });
-            await video.play();
-            video.muted = false;
-            await new Promise(r => setTimeout(r, 500));
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth || 720;
-            canvas.height = video.videoHeight || 1280;
-            const ctx = canvas.getContext('2d');
+                await new Promise(r => {
+                    video.onloadedmetadata = () => { if(video.duration > 0) r(); };
+                    setTimeout(r, 1000); 
+                    video.load();
+                });
+                await video.play();
+                video.muted = false;
+                await new Promise(r => setTimeout(r, 500));
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth || 720;
+                canvas.height = video.videoHeight || 1280;
+                const ctx = canvas.getContext('2d');
 
-            const canvasStream = canvas.captureStream(24);
-            const combinedStream = new MediaStream([
-                ...canvasStream.getVideoTracks(),
-                ...audioDest.stream.getAudioTracks()
-            ]);
+                const canvasStream = canvas.captureStream(24);
+                const combinedStream = new MediaStream([
+                    ...canvasStream.getVideoTracks(),
+                    ...audioDest.stream.getAudioTracks()
+                ]);
 
-            const recorderOptions = {
-                mimeType: finalBlobOriginal.type || 'video/webm',
-                videoBitsPerSecond: 2500000, 
-                audioBitsPerSecond: 128000   
-            };
+                const recorderOptions = {
+                    mimeType: finalBlobOriginal.type || 'video/webm',
+                    videoBitsPerSecond: 2500000, 
+                    audioBitsPerSecond: 128000   
+                };
 
-            const recorder = new MediaRecorder(combinedStream, recorderOptions);
-            const chunks = [];
-            recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-            const recordingFinished = new Promise(resolve => recorder.onstop = () => resolve(new Blob(chunks, { type: finalBlobOriginal.type || 'video/webm' })));
+                const recorder = new MediaRecorder(combinedStream, recorderOptions);
+                const chunks = [];
+                recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+                const recordingFinished = new Promise(resolve => recorder.onstop = () => resolve(new Blob(chunks, { type: finalBlobOriginal.type || 'video/webm' })));
 
-            let isResolved = false;
-            const renderFrame = () => {
-                if(isResolved) return;
+                let isResolved = false;
+                const renderFrame = () => {
+                    if(isResolved) return;
 
-                if (!video.ended) {
-                    ctx.fillStyle = '#000000';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    if (!video.ended) {
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                    // LOGIKA MENGGAMBAR TEKS SESUAI DURASI MULAI & SELESAI
-                    const stInput = document.getElementById('simpleText');
-                    if(stInput && stInput.value.trim() !== '') {
-                        const currentTotal = video.currentTime;
-                        const sTime = parseFloat(document.getElementById('startSec').value) || 0;
-                        const eTime = parseFloat(document.getElementById('endSec').value) || 5;
-                        
-                        if(currentTotal >= sTime && currentTotal <= eTime) {
-                            const tMode = document.getElementById('simpleMode').value;
-                            const tColor = document.getElementById('simpleColor').value;
-                            const tSize = parseInt(document.getElementById('textSize').value) || 32;
+                        // LOGIKA MENGGAMBAR TEKS SESUAI DURASI MULAI & SELESAI
+                        const stInput = document.getElementById('simpleText');
+                        if(stInput && stInput.value.trim() !== '') {
+                            const currentTotal = video.currentTime;
+                            const stSecEl = document.getElementById('startSec');
+                            const enSecEl = document.getElementById('endSec');
+                            const sTime = stSecEl ? parseFloat(stSecEl.value) || 0 : 0;
+                            const eTime = enSecEl ? parseFloat(enSecEl.value) || 5 : 5;
                             
-                            ctx.save();
-                            const scaleRatio = canvas.height / 192; 
-                            const finalSize = Math.round(tSize * scaleRatio);
-                            
-                            ctx.font = `bold ${finalSize}px Poppins, sans-serif`;
-                            ctx.fillStyle = tColor;
-                            ctx.textAlign = "center";
-                            ctx.textBaseline = "middle";
-                            ctx.shadowColor = "black";
-                            ctx.shadowBlur = 4 * scaleRatio;
-                            ctx.shadowOffsetX = 2 * scaleRatio;
-                            ctx.shadowOffsetY = 2 * scaleRatio;
-                            
-                            let tx = canvas.width / 2;
-                            let ty = canvas.height / 2;
-                            
-                            const txtOut = document.getElementById('simpleTextOut');
-                            if (tMode === 'static' && txtOut && txtOut.style.left) {
-                                let dx = 0; let dy = 0;
-                                const lMatch = txtOut.style.left.match(/calc\(50% \+ (-?\d+\.?\d*)px\)/);
-                                const tMatch = txtOut.style.top.match(/calc\(50% \+ (-?\d+\.?\d*)px\)/);
-                                if(lMatch) dx = parseFloat(lMatch[1]);
-                                if(tMatch) dy = parseFloat(tMatch[1]);
+                            if(currentTotal >= sTime && currentTotal <= eTime) {
+                                const tMode = document.getElementById('simpleMode') ? document.getElementById('simpleMode').value : 'static';
+                                const tColor = document.getElementById('simpleColor') ? document.getElementById('simpleColor').value : '#ffffff';
+                                const txtSizeEl = document.getElementById('textSize');
+                                const tSize = txtSizeEl ? parseInt(txtSizeEl.value) || 32 : 32;
                                 
-                                const previewEl = document.getElementById('simplePreview');
-                                if(previewEl) {
-                                    const realScale = canvas.height / previewEl.clientHeight;
-                                    tx = (canvas.width / 2) + (dx * realScale);
-                                    ty = (canvas.height / 2) + (dy * realScale);
+                                ctx.save();
+                                const scaleRatio = canvas.height / 192; 
+                                const finalSize = Math.round(tSize * scaleRatio);
+                                
+                                ctx.font = `bold ${finalSize}px Poppins, sans-serif`;
+                                ctx.fillStyle = tColor;
+                                ctx.textAlign = "center";
+                                ctx.textBaseline = "middle";
+                                ctx.shadowColor = "black";
+                                ctx.shadowBlur = 4 * scaleRatio;
+                                ctx.shadowOffsetX = 2 * scaleRatio;
+                                ctx.shadowOffsetY = 2 * scaleRatio;
+                                
+                                let tx = canvas.width / 2;
+                                let ty = canvas.height / 2;
+                                
+                                const txtOut = document.getElementById('simpleTextOut');
+                                if (tMode === 'static' && txtOut && txtOut.style.left) {
+                                    let dx = 0; let dy = 0;
+                                    const lMatch = txtOut.style.left.match(/calc\(50% \+ (-?\d+\.?\d*)px\)/);
+                                    const tMatch = txtOut.style.top.match(/calc\(50% \+ (-?\d+\.?\d*)px\)/);
+                                    if(lMatch) dx = parseFloat(lMatch[1]);
+                                    if(tMatch) dy = parseFloat(tMatch[1]);
+                                    
+                                    const previewEl = document.getElementById('simplePreview');
+                                    if(previewEl) {
+                                        const realScale = canvas.height / previewEl.clientHeight;
+                                        tx = (canvas.width / 2) + (dx * realScale);
+                                        ty = (canvas.height / 2) + (dy * realScale);
+                                    }
+                                } else if (tMode === 'running') {
+                                    const textW = ctx.measureText(stInput.value).width;
+                                    const totalDist = canvas.width + textW;
+                                    const p = ((currentTotal - sTime) % 4) / 4; 
+                                    tx = canvas.width + (textW/2) - (p * totalDist);
                                 }
-                            } else if (tMode === 'running') {
-                                const textW = ctx.measureText(stInput.value).width;
-                                const totalDist = canvas.width + textW;
-                                const p = ((currentTotal - sTime) % 4) / 4; 
-                                tx = canvas.width + (textW/2) - (p * totalDist);
+                                
+                                ctx.fillText(stInput.value, tx, ty);
+                                ctx.restore();
                             }
-                            
-                            ctx.fillText(stInput.value, tx, ty);
-                            ctx.restore();
                         }
+
+                        const percent = Math.min(100, Math.round((video.currentTime / video.duration) * 100));
+                        if(progressBar) progressBar.style.width = `${percent}%`;
+                        if(progressText) progressText.textContent = `${percent}%`;
+
+                        if (percent > 1 && timerValue) {
+                            const elapsedTimeSec = (Date.now() - startTime) / 1000;
+                            const estimatedTotalSec = (elapsedTimeSec / percent) * 100;
+                            const remainingSec = Math.max(0, Math.round(estimatedTotalSec - elapsedTimeSec));
+                            const mins = Math.floor(remainingSec / 60);
+                            const secs = remainingSec % 60;
+                            timerValue.textContent = `${mins} menit ${secs} detik lagi`;
+                        }
+
+                        requestAnimationFrame(renderFrame);
+                    } else if (video.ended) {
+                        isResolved = true;
+                        video.pause();
+                        sourceNode.disconnect();
+                        recorder.stop();
+                        if(document.body.contains(video)) document.body.removeChild(video);
                     }
+                };
+       
+                video.play().catch(e => console.error(e));
+                await new Promise(r => setTimeout(r, 300));
+                requestAnimationFrame(renderFrame);
+                recorder.start();
+                const finalBlobWithText = await recordingFinished;
+                finalBlobOriginal = finalBlobWithText; 
+                const finalUrlWithText = URL.createObjectURL(finalBlobWithText);
 
-                    const percent = Math.min(100, Math.round((video.currentTime / video.duration) * 100));
-                    progressBar.style.width = `${percent}%`;
-                    progressText.textContent = `${percent}%`;
+                // Perbarui tombol unduh teks
+                const downloadBtnText = document.getElementById('download-btn-text');
+                if(downloadBtnText) downloadBtnText.href = finalUrlWithText;
 
-                    if (percent > 1) {
-                        const elapsedTimeSec = (Date.now() - startTime) / 1000;
-                        const estimatedTotalSec = (elapsedTimeSec / percent) * 100;
-                        const remainingSec = Math.max(0, Math.round(estimatedTotalSec - elapsedTimeSec));
-                        const mins = Math.floor(remainingSec / 60);
-                        const secs = remainingSec % 60;
-                        timerValue.textContent = `${mins} menit ${secs} detik lagi`;
-                    }
+                const simpleVideoEl = document.getElementById('simpleVideo');
+                if(simpleVideoEl) simpleVideoEl.src = finalUrlWithText;
 
-                    requestAnimationFrame(renderFrame);
-                } else if (video.ended) {
-                    isResolved = true;
-                    video.pause();
-                    sourceNode.disconnect();
-                    recorder.stop();
-                    if(document.body.contains(video)) document.body.removeChild(video);
-                }
-            };
-   
-            video.play().catch(e => console.error(e));
-            await new Promise(r => setTimeout(r, 300));
-            requestAnimationFrame(renderFrame);
-            recorder.start();
-            const finalBlobWithText = await recordingFinished;
-            finalBlobOriginal = finalBlobWithText; 
-            const finalUrlWithText = URL.createObjectURL(finalBlobWithText);
-
-            // Perbarui tombol unduh utama & tombol unduh teks
-            const downloadBtn = document.getElementById('download-btn');
-            downloadBtn.href = finalUrlWithText;
-            
-            const downloadBtnText = document.getElementById('download-btn-text');
-            downloadBtnText.href = finalUrlWithText;
-
-            document.getElementById('simpleVideo').src = finalUrlWithText;
-
-            showSection('result-area');
-            setTimeout(() => alert("Teks berhasil diterapkan secara permanen! Silakan unduh video Anda."), 300);
-        });
+                showSection('result-area');
+                setTimeout(() => alert("Teks berhasil diterapkan secara permanen! Silakan unduh video Anda."), 300);
+            });
+        }
     </script>
 </body>
 </html>
