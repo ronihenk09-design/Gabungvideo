@@ -350,28 +350,25 @@
         overlayEl.addEventListener('pointercancel', stopLogoDrag);
 
         // ==========================================
-        // KLIK TOMBOL RENDER (BUG FIX AUDIO 100%)
+        // KLIK TOMBOL RENDER 
         // ==========================================
         document.getElementById('apply-logo-btn').addEventListener('click', async () => {
             if (!finalBlobOriginal) return;
 
-            // BUG FIX 1: AUDIO CONTEXT HARUS DIBUAT SINKRON DENGAN KLIK (TIDAK BOLEH ADA AWAIT SEBELUMNYA)
+            // BUG 1 FIX: AudioContext dan resume dipanggil PALING AWAL sebelum ada await
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const audioCtx = new AudioContext();
             
-            // Wajib resume context di dalam handler click agar user-gesture tidak hangus
             if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
+                await audioCtx.resume();
             }
             
             const audioDest = audioCtx.createMediaStreamDestination();
 
-            // BUG FIX 2: BIKIN VIDEO RENDER SINKRON JUGA. 
-            // PERINGATAN: JANGAN pakai crossOrigin="anonymous" untuk Blob URL, 
-            // karena ini akan "taint" medianya dan bikin audio bisu total di Chrome/Safari.
+            // BUG 2 FIX: Buat video baru KHUSUS render untuk menghindari error dipanggil 2x
             const renderVideo = document.createElement('video');
             renderVideo.src = URL.createObjectURL(finalBlobOriginal);
-            renderVideo.muted = false; // Harus false agar suara jalan
+            renderVideo.muted = false; 
             renderVideo.volume = 1;
             renderVideo.playsInline = true;
             
@@ -383,12 +380,11 @@
             renderVideo.style.zIndex = '-9999';
             document.body.appendChild(renderVideo);
 
-            // Sambungkan Web Audio API saat event click masih "segar"
             let sourceNode = null;
             try {
+                // MediaElementSource hanya dibuat dari video render yang baru
                 sourceNode = audioCtx.createMediaElementSource(renderVideo);
                 sourceNode.connect(audioDest);
-                // Dilarang connect ke destination utama agar user tidak mendengar audionya saat render
             } catch(e) {
                 console.warn("Gagal connect Audio Node:", e);
             }
@@ -402,10 +398,9 @@
 
             const startTime = Date.now();
 
-            // KITA BARU BOLEH AWAIT SETELAH AUDIO & VIDEO DIBUAT
             await new Promise(r => {
                 renderVideo.onloadedmetadata = () => { if(renderVideo.duration > 0) r(); };
-                setTimeout(r, 2000); // Fallback
+                setTimeout(r, 2000); 
                 renderVideo.load();
             });
 
@@ -418,12 +413,8 @@
 
             const canvasStream = canvas.captureStream(30);
             
-            // BUG FIX 3: FALLBACK EXTRACTION TRACK
-            // Jika Web Audio API di atas gagal (sering terjadi di Safari iOS), 
-            // kita ambil langsung audio dari captureStream video.
             let audioTracks = audioDest.stream.getAudioTracks();
             if (audioTracks.length === 0) {
-                console.warn("Audio Context gagal mengekstrak track, mencoba fallback ke direct captureStream.");
                 if (renderVideo.captureStream) {
                     audioTracks = renderVideo.captureStream().getAudioTracks();
                 } else if (renderVideo.mozCaptureStream) {
@@ -436,8 +427,16 @@
                 ...audioTracks
             ]);
 
+            // BUG 3 FIX: Paksa mimeType jadi webm agar audio tidak terbuang di Chrome
+            let mimeType = 'video/webm';
+            if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+                mimeType = 'video/webm;codecs=vp9,opus';
+            } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+                mimeType = 'video/webm;codecs=vp8,opus';
+            }
+
             const recorderOptions = {
-                mimeType: finalBlobOriginal.type || 'video/webm',
+                mimeType: mimeType,
                 videoBitsPerSecond: 2500000, 
                 audioBitsPerSecond: 128000   
             };
@@ -445,11 +444,10 @@
             const recorder = new MediaRecorder(combinedStream, recorderOptions);
             const chunks = [];
             recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-            const recordingFinished = new Promise(resolve => recorder.onstop = () => resolve(new Blob(chunks, { type: finalBlobOriginal.type || 'video/webm' })));
+            const recordingFinished = new Promise(resolve => recorder.onstop = () => resolve(new Blob(chunks, { type: mimeType })));
 
             let isResolved = false;
 
-            // Timer Keamanan (Jika video nyangkut)
             const fallbackTimer = setTimeout(() => {
                 if(!isResolved) {
                     isResolved = true;
@@ -515,7 +513,6 @@
             };
             
             renderVideo.currentTime = 0;
-            // Play harus ditrigger agar render frame dan audio mulai mengalir
             await renderVideo.play().catch(e => console.error("Gagal play video:", e));
             
             recorder.start();
