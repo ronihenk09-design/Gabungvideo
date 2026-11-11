@@ -667,8 +667,8 @@
             video.src = URL.createObjectURL(finalBlobOriginal);
             
             // MUTED & VOLUME SETTING (CEGAH BLOKIR HP)
-            video.muted = true;
-            video.volume = 0;
+            video.muted = false;
+            video.volume = 1;
             video.playsInline = true;
             
             video.style.position = 'fixed';
@@ -692,7 +692,6 @@
             const audioDest = audioCtx.createMediaStreamDestination();
             const sourceNode = audioCtx.createMediaElementSource(video);
             sourceNode.connect(audioDest);
-            sourceNode.connect(audioCtx.destination);
             await audioCtx.resume();
 
             const canvas = document.createElement('canvas');
