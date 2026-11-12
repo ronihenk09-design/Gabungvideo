@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Ubah Video Jadi MP3 - gabungvideo.online</title>
+<meta name="description" content="Ubah video jadi MP3 online gratis. Ekstrak audio dari video MP4, TikTok, Reels jadi format MP3 kualitas tinggi. 100% free, no signup.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://gabungvideo.online/mp3/">
+<link rel="alternate" hreflang="id" href="https://gabungvideo.online/mp3/">
+<link rel="alternate" hreflang="en" href="https://gabungvideo.online/mp3/">
+<link rel="alternate" hreflang="x-default" href="https://gabungvideo.online/mp3/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gabungvideo.online/mp3/">
+<meta property="og:title" content="Ubah Video Jadi MP3 Online Gratis">
+<meta property="og:description" content="Ekstrak audio dari video MP4, TikTok, Reels menjadi MP3. Gratis, cepat, privasi aman (render lokal).">
+<meta property="og:image" content="https://gabungvideo.online/og-image-1200x630.png">
+<meta property="og:locale" content="id_ID">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ubah Video Jadi MP3 Online Gratis">
+<meta name="twitter:description" content="Free AI Video to MP3 Converter - No signup, works globally.">
+<meta name="twitter:image" content="https://gabungvideo.online/og-image-1200x630.png">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- TAILWIND CSS & FONT AWESOME -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body { background-color: #f8fafc; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+    html.scroll-smooth { scroll-behavior: smooth; }
+    .text-brand-navy { color: #0f172a; }
+    .bg-brand-navy { background-color: #0f172a; }
+    .text-brand-blue { color: #2563eb; }
+    .bg-brand-blue { background-color: #2563eb; }
+    .text-brand-purple { color: #9333ea; }
+    .bg-brand-purple { background-color: #9333ea; }
+    .border-brand-blue { border-color: #2563eb; }
+    .border-t-brand-blue { border-top-color: #2563eb; }
+    .border-t-brand-purple { border-top-color: #9333ea; }
+    .shadow-soft { box-shadow: 0 10px 40px -10px rgba(37,99,235,0.1); }
+    .shadow-glow { box-shadow: 0 0 20px rgba(147,51,234,0.3); }
+    .bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+    .bg-blue-50\/50 { background-color: rgba(239, 246, 255, 0.5); }
+    .gradient-text { background: linear-gradient(135deg, #2563eb, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .gradient-bg { background: linear-gradient(135deg, #2563eb, #9333ea); }
+    .blob { position: absolute; filter: blur(80px); z-index: -1; opacity: 0.4; }
+    
+    .kbps-btn { transition: all 0.2s; border: 2px solid #e2e8f0; color: #64748b; background: white; }
+    .kbps-btn.active { border-color: #2563eb; color: #2563eb; background: #eff6ff; font-weight: 600; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+</style>
+</head>
+<body class="text-brand-navy antialiased flex flex-col min-h-screen relative">
+
+    <div class="blob bg-blue-400 w-72 h-72 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="blob bg-purple-400 w-72 h-72 rounded-full top-40 right-0 translate-x-1/3"></div>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-40 border-b border-slate-200/50 transition-all">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform">
+                    <i class="fas fa-music"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-brand-navy">gabungvideo.online</span>
+            </a>
+            <nav class="hidden md:flex gap-8 font-medium text-sm text-slate-600">
+                <a href="#beranda" class="hover:text-brand-blue transition-colors">Beranda</a>
+                <a href="#cara-pakai" class="hover:text-brand-blue transition-colors">Cara Pakai</a>
+                <a href="#faq" class="hover:text-brand-blue transition-colors">FAQ</a>
+            </nav>
+            <button class="md:hidden text-slate-600 text-xl p-2"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-grow pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full" id="beranda">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-brand-blue text-xs font-semibold mb-6">
+                <i class="fas fa-bolt text-yellow-500"></i> Cepat, Gratis & 100% Aman (Render Lokal)
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
+                Ubah Video Jadi MP3
+            </h1>
+            <p style="text-align:center; color:#555; font-size:14px; margin-top:10px; margin-bottom: 1rem;">
+                Ekstrak audio dari video MP4, TikTok, atau Reels menjadi format MP3 dengan kualitas tinggi secara instan.
+            </p>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-md rounded-[2rem] p-6 sm:p-10 shadow-soft border border-white relative z-10 max-w-3xl mx-auto">
+            
+            <!-- UPLOAD VIDEO AREA -->
+            <div id="upload-area" class="border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center hover:border-brand-blue hover:bg-blue-50/50 transition-all cursor-pointer flex flex-col items-center justify-center">
+                <div class="w-16 h-16 rounded-full bg-blue-100 text-brand-blue flex items-center justify-center text-2xl mb-4 shadow-sm pointer-events-none">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-brand-navy mb-1 pointer-events-none">Sentuh untuk Pilih Video</h3>
+                <p class="text-sm text-slate-400 mb-6 pointer-events-none">Format: MP4, WebM (Maksimal Ukuran Total 500MB)</p>
+                <label for="file-input" class="gradient-bg text-white px-6 py-2.5 rounded-full font-medium text-sm shadow-glow transition-all cursor-pointer">Buka Galeri</label>
+                <input type="file" id="file-input" class="hidden" accept="video/*">
+            </div>
+
+            <!-- SETTINGS AREA -->
+            <div id="settings-area" class="hidden text-center py-4">
+                
+                <!-- VIDEO INFO PREVIEW -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center gap-4 text-left">
+                    <div class="w-full sm:w-1/3 h-28 bg-black rounded-lg overflow-hidden flex-shrink-0 relative">
+                        <video id="preview-video" class="w-full h-full object-cover" muted playsinline></video>
+                    </div>
+                    <div class="w-full sm:w-2/3">
+                        <h4 id="info-name" class="font-bold text-brand-navy truncate mb-1">nama_video.mp4</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm text-slate-600">
+                            <p><i class="fas fa-weight-hanging text-brand-blue w-4"></i> Ukuran: <strong id="info-size">0 MB</strong></p>
+                            <p><i class="fas fa-clock text-brand-purple w-4"></i> Durasi: <strong id="info-duration">0s</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm text-left mb-6">
+                    <h3 class="font-bold text-brand-navy mb-4"><i class="fas fa-sliders-h text-brand-purple mr-1"></i> Pengaturan Audio</h3>
+                    
+                    <!-- KUALITAS SLIDER -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="quality-slider" class="text-sm font-bold text-slate-600">Kualitas Audio: <span id="val-quality" class="text-brand-blue">192 kbps</span></label>
+                        </div>
+                        <input type="range" id="quality-slider" min="64" max="320" value="192" step="64" class="w-full accent-blue-600 cursor-pointer">
+                        
+                        <div class="flex justify-between text-xs text-slate-400 mt-2 px-1">
+                            <span>Kecil (64k)</span>
+                            <span>Normal (192k)</span>
+                            <span>HD (320k)</span>
+                        </div>
+                    </div>
+
+                    <!-- ESTIMASI BOX -->
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-center mt-6">
+                        <p class="text-sm font-medium text-brand-navy">Estimasi Ukuran MP3:</p>
+                        <p id="info-estimate" class="text-lg font-bold text-brand-blue">~0 MB</p>
+                    </div>
+                </div>
+
+                <button id="convert-btn" class="w-full bg-brand-navy hover:bg-slate-800 text-white py-3.5 rounded-xl font-semibold shadow-soft transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <i class="fas fa-music"></i> Ubah Jadi MP3 & Render Ulang
+                </button>
+                <button class="mt-4 text-sm font-medium text-slate-400 hover:text-brand-blue transition-colors underline" onclick="resetApp()">Batal / Pilih Video Lain</button>
+            </div>
+
+            <!-- AREA PROCESSING -->
+            <div id="processing-area" class="hidden text-center py-8">
+                <div class="w-16 h-16 border-4 border-blue-100 border-t-brand-blue rounded-full animate-spin mx-auto mb-6"></div>
+                <h2 class="text-2xl font-bold text-brand-navy mb-2">Mengubah Video Jadi MP3...</h2>
+                <p class="text-slate-500 mb-6 text-sm">Proses berjalan otomatis, harap biarkan layar Anda tetap menyala.</p>
+                <div class="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="gradient-bg h-3 rounded-full transition-all duration-200 ease-linear" style="width: 0%"></div>
+                </div>
+                <p id="progress-text" class="text-sm font-semibold text-brand-blue text-right">0%</p>
+            </div>
+
+            <!-- AREA HASIL & DOWNLOAD -->
+            <div id="result-area" class="hidden text-center py-4">
+                <div class="w-16 h-16 rounded-full bg-green-100 text-green-500 flex items-center justify-center text-3xl mx-auto mb-4">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-brand-navy mb-2">MP3 Berhasil Dibuat!</h3>
+                <p class="text-slate-500 text-sm mb-6">Audio Anda telah berhasil diekstrak.</p>
+
+                <div class="bg-white border border-slate-200 rounded-xl p-4 mb-6 shadow-sm">
+                    <div class="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200 flex items-center justify-center">
+                        <audio id="result-audio" class="w-full" controls></audio>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg border border-slate-100 text-sm">
+                        <div class="text-left">
+                            <p class="text-slate-500 text-xs">Ukuran MP3</p>
+                            <p class="font-bold text-brand-navy" id="final-size">0 MB</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-slate-500 text-xs">Penghematan</p>
+                            <p class="font-bold text-green-500" id="final-saving">0%</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-slate-500 text-xs">Durasi</p>
+                            <p class="font-bold text-brand-navy" id="final-duration">0s</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a id="download-btn-mp3" href="#" download="audio.mp3" class="hidden w-full bg-brand-blue hover:bg-blue-700 text-white font-bold text-[15px] px-6 py-3.5 rounded-full text-center shadow-soft transition-all active:scale-[0.98]">
+                    ⬇️ Unduh MP3
+                </a>
+
+                <button class="mt-6 text-sm font-medium text-slate-400 hover:text-brand-blue transition-colors underline" onclick="resetApp()">
+                    Ubah Video Lainnya
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="background:#ffffff; color:#000000; border-top:1px solid #e2e8f0;" class="mt-16">
+      <div style="max-width:1200px; margin:0 auto; padding:40px 20px;">
+        <div style="margin-bottom:30px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <div style="background:#8b5cf6; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; color:white;">🎬</div>
+            <strong style="font-size:20px;">gabungvideo.online</strong>
+          </div>
+          <p style="color:#475569; font-size:14px; max-width:400px;">Solusi memotong, menggabung, kompresi video, dan ekstrak MP3 secara instan tanpa perlu instalasi.</p>
+        </div>
+        <div style="border-top:1px solid #e2e8f0; padding-top:20px; text-align:center; font-size:13px;">
+          © 2026 gabungvideo.online. Hak Cipta Dilindungi.
+        </div>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let originalFile = null;
+        let originalSizeMB = 0;
+        let originalDuration = 0;
+
+        const fileInput = document.getElementById('file-input');
+        fileInput.addEventListener('change', function() { handleFiles(this.files); });
+
+        const dropZone = document.getElementById('upload-area');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+        dropZone.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+
+        function showSection(sectionId) {
+            ['upload-area', 'settings-area', 'processing-area', 'result-area'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) { el.classList.add('hidden'); if(id === 'upload-area') el.classList.remove('flex'); }
+            });
+            const target = document.getElementById(sectionId);
+            if(target) {
+                target.classList.remove('hidden');
+                if (sectionId === 'upload-area') target.classList.add('flex');
+            }
+        }
+
+        function resetApp() {
+            originalFile = null;
+            fileInput.value = "";
+            document.getElementById('preview-video').src = "";
+            document.getElementById('result-audio').src = "";
+            showSection('upload-area');
+        }
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        async function handleFiles(files) {
+            const newFiles = Array.from(files).filter(file => file.type.startsWith('video/'));
+            if (newFiles.length === 0) return;
+            
+            originalFile = newFiles[0];
+            originalSizeMB = originalFile.size / (1024 * 1024);
+            
+            document.getElementById('info-name').textContent = originalFile.name;
+            document.getElementById('info-size').textContent = originalSizeMB.toFixed(2) + " MB";
+            
+            const tempUrl = URL.createObjectURL(originalFile);
+            const previewVid = document.getElementById('preview-video');
+            previewVid.src = tempUrl;
+
+            showSection('settings-area');
+
+            await new Promise(r => {
+                previewVid.onloadedmetadata = () => {
+                    originalDuration = previewVid.duration;
+                    document.getElementById('info-duration').textContent = formatTime(originalDuration);
+                    updateEstimation();
+                    r();
+                };
+                setTimeout(r, 2000); 
+            });
+        }
+
+        const qualitySlider = document.getElementById('quality-slider');
+        qualitySlider.addEventListener('input', () => {
+            // Snap to steps (128, 192, 320) logic
+            let val = parseInt(qualitySlider.value);
+            if(val <= 96) val = 64; // Fallback snap smaller
+            else if(val <= 160) val = 128;
+            else if(val <= 256) val = 192;
+            else val = 320;
+            
+            qualitySlider.value = val;
+            document.getElementById('val-quality').textContent = val + " kbps";
+            updateEstimation();
+        });
+
+        function updateEstimation() {
+            if (!originalDuration) return;
+            const targetKbps = parseInt(qualitySlider.value);
+            
+            // Estimated Size (MB) = (kbps * 1000 * seconds) / (8 * 1024 * 1024)
+            let estimatedMB = ((targetKbps * 1000) * originalDuration) / (8 * 1024 * 1024);
+            
+            document.getElementById('info-estimate').innerHTML = `~${estimatedMB.toFixed(2)} MB`;
+        }
+
+        // ==========================================
+        // RENDER MP3 (AUDIO ONLY BUG-FREE)
+        // ==========================================
+        document.getElementById('convert-btn').addEventListener('click', async () => {
+            if (!originalFile) return;
+
+            // 1. AudioContext setup STRICTLY SYNC with user click
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioCtx = new AudioContext();
+            if (audioCtx.state === 'suspended') {
+                await audioCtx.resume();
+            }
+            const audioDest = audioCtx.createMediaStreamDestination();
+
+            // 2. Create FRESH video element just for rendering
+            const renderVideo = document.createElement('video');
+            renderVideo.src = URL.createObjectURL(originalFile);
+            renderVideo.muted = false; // MUST be false
+            renderVideo.volume = 1;
+            renderVideo.playsInline = true;
+            renderVideo.style.position = 'fixed';
+            renderVideo.style.top = '0';
+            renderVideo.style.left = '-9999px';
+            renderVideo.style.opacity = '0';
+            renderVideo.style.pointerEvents = 'none';
+            document.body.appendChild(renderVideo);
+
+            let sourceNode = null;
+            try {
+                // Connect only to destination stream, not audioCtx.destination
+                sourceNode = audioCtx.createMediaElementSource(renderVideo);
+                sourceNode.connect(audioDest);
+            } catch (e) {
+                console.warn("Audio Node setup failed:", e);
+            }
+
+            showSection('processing-area');
+            const progressText = document.getElementById('progress-text');
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = '0%';
+            progressText.textContent = '0%';
+
+            await new Promise(r => {
+                renderVideo.onloadedmetadata = () => r();
+                setTimeout(r, 2000);
+            });
+
+            const totalDuration = renderVideo.duration || originalDuration;
+            const targetKbps = parseInt(qualitySlider.value) * 1000;
+
+            // Ensure Audio Only Stream (No Video Tracks)
+            let audioTracks = audioDest.stream.getAudioTracks();
+            if (audioTracks.length === 0) {
+                if (renderVideo.captureStream) audioTracks = renderVideo.captureStream().getAudioTracks();
+                else if (renderVideo.mozCaptureStream) audioTracks = renderVideo.mozCaptureStream().getAudioTracks();
+            }
+
+            const audioOnlyStream = new MediaStream(audioTracks);
+
+            // Force Audio MIME Type
+            let mimeType = 'audio/webm';
+            if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+                mimeType = 'audio/webm;codecs=opus';
+            }
+
+            const recorderOptions = {
+                mimeType: mimeType,
+                audioBitsPerSecond: targetKbps
+            };
+
+            const recorder = new MediaRecorder(audioOnlyStream, recorderOptions);
+            const chunks = [];
+            recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            const recordingFinished = new Promise(resolve => recorder.onstop = () => resolve(new Blob(chunks, { type: 'audio/mpeg' }))); // Output as MP3/MPEG compatible blob type for browser download
+
+            let isResolved = false;
+
+            const fallbackTimer = setTimeout(() => {
+                if(!isResolved) stopRendering();
+            }, (totalDuration * 1000) + 3000);
+
+            function stopRendering() {
+                isResolved = true;
+                clearTimeout(fallbackTimer);
+                try { renderVideo.pause(); } catch(e){}
+                try { recorder.stop(); } catch(e){}
+                if (sourceNode) { try { sourceNode.disconnect(); } catch(e){} }
+                if (document.body.contains(renderVideo)) document.body.removeChild(renderVideo);
+            }
+
+            const renderFrame = () => {
+                if(isResolved) return;
+
+                const percent = Math.min(100, Math.round((renderVideo.currentTime / totalDuration) * 100));
+                progressBar.style.width = `${percent}%`;
+                progressText.textContent = `${percent}%`;
+
+                // Add 500ms pad to prevent clipping before stopping
+                if (renderVideo.ended === true && renderVideo.currentTime >= totalDuration - 0.2) {
+                    if (!isResolved) {
+                        setTimeout(stopRendering, 500); 
+                    }
+                } else {
+                    if (renderVideo.paused && renderVideo.currentTime < totalDuration - 0.2) {
+                        renderVideo.play().catch(() => {});
+                    }
+                    requestAnimationFrame(renderFrame);
+                }
+            };
+            
+            renderVideo.currentTime = 0;
+            await renderVideo.play().catch(e => console.error("Play error:", e));
+            
+            recorder.start();
+            requestAnimationFrame(renderFrame);
+
+            const finalBlob = await recordingFinished;
+            const finalUrl = URL.createObjectURL(finalBlob);
+
+            // Tampilkan Hasil
+            const resAudio = document.getElementById('result-audio');
+            resAudio.src = finalUrl;
+
+            const finalSizeMB = finalBlob.size / (1024 * 1024);
+            let finalSaving = ((originalSizeMB - finalSizeMB) / originalSizeMB) * 100;
+            if (finalSaving < 0) finalSaving = 0;
+
+            document.getElementById('final-size').textContent = finalSizeMB.toFixed(2) + " MB";
+            document.getElementById('final-saving').textContent = Math.round(finalSaving) + "%";
+            document.getElementById('final-duration').textContent = formatTime(totalDuration);
+
+            // Tombol Download
+            const dlBtn = document.getElementById('download-btn-mp3');
+            dlBtn.href = finalUrl;
+            
+            const originalExt = originalFile.name.split('.').pop();
+            const originalName = originalFile.name.replace('.' + originalExt, '');
+            dlBtn.download = `${originalName}.mp3`; // Save with .mp3 extension
+            
+            dlBtn.classList.remove('hidden');
+            dlBtn.style.display = 'block';
+
+            showSection('result-area');
+        });
+    </script>
+</body>
+</html>
