@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Foto Jadi Video Slideshow - gabungvideo.online</title>
+<meta name="description" content="Buat video slideshow dari foto online gratis. Gabungkan gambar jadi video MP4 tanpa watermark. 100% free, no signup.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://gabungvideo.online/foto/">
+<link rel="alternate" hreflang="id" href="https://gabungvideo.online/foto/">
+<link rel="alternate" hreflang="en" href="https://gabungvideo.online/foto/">
+<link rel="alternate" hreflang="x-default" href="https://gabungvideo.online/foto/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gabungvideo.online/foto/">
+<meta property="og:title" content="Foto Jadi Video Slideshow Online Gratis">
+<meta property="og:description" content="Ubah koleksi foto Anda menjadi video slideshow menarik secara instan. Gratis, cepat, privasi aman (render lokal).">
+<meta property="og:image" content="https://gabungvideo.online/og-image-1200x630.png">
+<meta property="og:locale" content="id_ID">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Foto Jadi Video Slideshow Online">
+<meta name="twitter:description" content="Free Image to Video Maker - No signup, works globally.">
+<meta name="twitter:image" content="https://gabungvideo.online/og-image-1200x630.png">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- TAILWIND CSS & FONT AWESOME -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body { background-color: #f8fafc; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+    html.scroll-smooth { scroll-behavior: smooth; }
+    .text-brand-navy { color: #0f172a; }
+    .bg-brand-navy { background-color: #0f172a; }
+    .text-brand-blue { color: #2563eb; }
+    .bg-brand-blue { background-color: #2563eb; }
+    .text-brand-purple { color: #9333ea; }
+    .bg-brand-purple { background-color: #9333ea; }
+    .border-brand-blue { border-color: #2563eb; }
+    .border-t-brand-blue { border-top-color: #2563eb; }
+    .border-t-brand-purple { border-top-color: #9333ea; }
+    .shadow-soft { box-shadow: 0 10px 40px -10px rgba(37,99,235,0.1); }
+    .shadow-glow { box-shadow: 0 0 20px rgba(147,51,234,0.3); }
+    .bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+    .bg-blue-50\/50 { background-color: rgba(239, 246, 255, 0.5); }
+    .gradient-text { background: linear-gradient(135deg, #2563eb, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .gradient-bg { background: linear-gradient(135deg, #2563eb, #9333ea); }
+    .blob { position: absolute; filter: blur(80px); z-index: -1; opacity: 0.4; }
+    
+    .btn-option { transition: all 0.2s; border: 2px solid #e2e8f0; color: #64748b; background: white; }
+    .btn-option.active { border-color: #2563eb; color: #2563eb; background: #eff6ff; font-weight: 600; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+</style>
+</head>
+<body class="text-brand-navy antialiased flex flex-col min-h-screen relative">
+
+    <div class="blob bg-blue-400 w-72 h-72 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="blob bg-purple-400 w-72 h-72 rounded-full top-40 right-0 translate-x-1/3"></div>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-40 border-b border-slate-200/50 transition-all">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform">
+                    <i class="fas fa-images"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-brand-navy">gabungvideo.online</span>
+            </a>
+            <nav class="hidden md:flex gap-8 font-medium text-sm text-slate-600">
+                <a href="#beranda" class="hover:text-brand-blue transition-colors">Beranda</a>
+                <a href="#cara-pakai" class="hover:text-brand-blue transition-colors">Cara Pakai</a>
+                <a href="#faq" class="hover:text-brand-blue transition-colors">FAQ</a>
+            </nav>
+            <button class="md:hidden text-slate-600 text-xl p-2"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-grow pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full" id="beranda">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-brand-blue text-xs font-semibold mb-6">
+                <i class="fas fa-bolt text-yellow-500"></i> Cepat, Gratis & 100% Aman (Render Lokal)
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
+                Foto Jadi Video Slideshow
+            </h1>
+            <p style="text-align:center; color:#555; font-size:14px; margin-top:10px; margin-bottom: 1rem;">
+                Ubah koleksi foto Anda menjadi video slideshow yang menarik tanpa aplikasi tambahan.
+            </p>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-md rounded-[2rem] p-6 sm:p-10 shadow-soft border border-white relative z-10 max-w-3xl mx-auto">
+            
+            <!-- UPLOAD FOTO AREA -->
+            <div id="upload-area" class="border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center hover:border-brand-blue hover:bg-blue-50/50 transition-all cursor-pointer flex flex-col items-center justify-center">
+                <div class="w-16 h-16 rounded-full bg-blue-100 text-brand-blue flex items-center justify-center text-2xl mb-4 shadow-sm pointer-events-none">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-brand-navy mb-1 pointer-events-none">Sentuh untuk Pilih Foto</h3>
+                <p class="text-sm text-slate-400 mb-6 pointer-events-none">Pilih 3 - 5 foto sekaligus (Format: JPG, PNG)</p>
+                <label for="file-input" class="gradient-bg text-white px-6 py-2.5 rounded-full font-medium text-sm shadow-glow transition-all cursor-pointer">Buka Galeri</label>
+                <input type="file" id="file-input" class="hidden" accept="image/*" multiple>
+            </div>
+
+            <!-- SETTINGS AREA -->
+            <div id="settings-area" class="hidden text-center py-4">
+                
+                <!-- PHOTO PREVIEW GRID -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6 text-left shadow-inner overflow-hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-bold text-brand-navy">Preview Foto (<span id="info-count">0</span>)</h4>
+                        <label for="file-input-add" class="text-xs font-semibold bg-white border border-slate-300 px-3 py-1.5 rounded-lg text-slate-600 hover:text-brand-blue hover:border-brand-blue cursor-pointer transition-colors shadow-sm">
+                            <i class="fas fa-plus"></i> Tambah
+                        </label>
+                        <input type="file" id="file-input-add" class="hidden" accept="image/*" multiple>
+                    </div>
+                    
+                    <!-- GRID FOTO -->
+                    <div id="photo-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 overflow-x-auto pb-2 custom-scrollbar">
+                        <!-- Foto items di-generate lewat JS -->
+                    </div>
+                </div>
+
+                <!-- PENGATURAN SLIDESHOW -->
+                <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm text-left mb-6">
+                    <h3 class="font-bold text-brand-navy mb-4"><i class="fas fa-sliders-h text-brand-purple mr-1"></i> Pengaturan Slideshow</h3>
+                    
+                    <!-- DURASI SLIDER -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="duration-slider" class="text-sm font-bold text-slate-600">Durasi Per Foto: <span id="val-duration" class="text-brand-blue">3 detik</span></label>
+                        </div>
+                        <input type="range" id="duration-slider" min="2" max="5" value="3" step="1" class="w-full accent-blue-600 cursor-pointer">
+                        <div class="flex justify-between text-xs text-slate-400 mt-2 px-1">
+                            <span>2s (Cepat)</span>
+                            <span>5s (Lama)</span>
+                        </div>
+                    </div>
+
+                    <!-- TRANSISI & RESOLUSI -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
+                        <div>
+                            <label class="text-sm font-bold text-slate-600 block mb-2">Efek Transisi:</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="trans-cut" class="btn-option py-2 rounded-lg text-sm" onclick="setTransition('cut')">Langsung</button>
+                                <button id="trans-fade" class="btn-option active py-2 rounded-lg text-sm" onclick="setTransition('fade')">Fade In/Out</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-sm font-bold text-slate-600 block mb-2">Resolusi Video:</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="res-720" class="btn-option active py-2 rounded-lg text-sm" onclick="setResolution(720)">720p (HD)</button>
+                                <button id="res-1080" class="btn-option py-2 rounded-lg text-sm" onclick="setResolution(1080)">1080p (FHD)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTIMASI BOX -->
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-center mt-6">
+                        <p class="text-sm font-medium text-brand-navy">Estimasi Video Selesai:</p>
+                        <p id="info-estimate" class="text-lg font-bold text-brand-blue">~12 detik <span class="text-xs text-slate-500 font-normal" id="info-math">(4 foto x 3 detik)</span></p>
+                    </div>
+                </div>
+
+                <button id="create-btn" class="w-full bg-brand-navy hover:bg-slate-800 text-white py-3.5 rounded-xl font-semibold shadow-soft transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <i class="fas fa-magic"></i> Buat Video & Render Ulang
+                </button>
+                <button class="mt-4 text-sm font-medium text-slate-400 hover:text-brand-blue transition-colors underline" onclick="resetApp()">Batal / Mulai Ulang</button>
+            </div>
+
+            <!-- AREA PROCESSING -->
+            <div id="processing-area" class="hidden text-center py-8">
+                <div class="w-16 h-16 border-4 border-blue-100 border-t-brand-blue rounded-full animate-spin mx-auto mb-6"></div>
+                <h2 class="text-2xl font-bold text-brand-navy mb-2">Membuat Video Slideshow...</h2>
+                <p class="text-slate-500 mb-6 text-sm">Proses berjalan otomatis, harap biarkan layar Anda tetap menyala.</p>
+                <div class="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="gradient-bg h-3 rounded-full transition-all duration-200 ease-linear" style="width: 0%"></div>
+                </div>
+                <p id="progress-text" class="text-sm font-semibold text-brand-blue text-right">0%</p>
+            </div>
+
+            <!-- AREA HASIL & DOWNLOAD -->
+            <div id="result-area" class="hidden text-center py-4">
+                <div class="w-16 h-16 rounded-full bg-green-100 text-green-500 flex items-center justify-center text-3xl mx-auto mb-4">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-brand-navy mb-2">Video Berhasil Dibuat!</h3>
+                <p class="text-slate-500 text-sm mb-6">Slideshow Anda siap untuk diunduh.</p>
+
+                <div class="bg-white border border-slate-200 rounded-xl p-4 mb-6 shadow-sm">
+                    <video id="result-video" class="w-full h-48 object-cover bg-black rounded-lg mb-4 shadow-inner" controls playsinline></video>
+                    
+                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg border border-slate-100 text-sm">
+                        <div class="text-left">
+                            <p class="text-slate-500 text-xs">Jumlah Foto</p>
+                            <p class="font-bold text-brand-navy" id="final-count">0</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-slate-500 text-xs">Ukuran File</p>
+                            <p class="font-bold text-brand-blue" id="final-size">0 MB</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-slate-500 text-xs">Durasi</p>
+                            <p class="font-bold text-brand-navy" id="final-duration">0s</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a id="download-btn-foto" href="#" download="foto-jadi-video.mp4" class="hidden w-full bg-brand-blue hover:bg-blue-700 text-white font-bold text-[15px] px-6 py-3.5 rounded-full text-center shadow-soft transition-all active:scale-[0.98]">
+                    ⬇️ Unduh Video Foto
+                </a>
+
+                <button class="mt-6 text-sm font-medium text-slate-400 hover:text-brand-blue transition-colors underline" onclick="resetApp()">
+                    Buat Slideshow Lainnya
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="background:#ffffff; color:#000000; border-top:1px solid #e2e8f0;" class="mt-16">
+      <div style="max-width:1200px; margin:0 auto; padding:40px 20px;">
+        <div style="margin-bottom:30px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <div style="background:#8b5cf6; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; color:white;">🎬</div>
+            <strong style="font-size:20px;">gabungvideo.online</strong>
+          </div>
+          <p style="color:#475569; font-size:14px; max-width:400px;">Solusi memotong, menggabung, kompresi video, ekstrak MP3, dan slideshow instan tanpa instalasi.</p>
+        </div>
+        <div style="border-top:1px solid #e2e8f0; padding-top:20px; text-align:center; font-size:13px;">
+          © 2026 gabungvideo.online. Hak Cipta Dilindungi.
+        </div>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let photos = []; 
+        let loadedImages = [];
+        let selectedTransition = 'fade';
+        let selectedResolution = 720;
+        
+        const fileInput = document.getElementById('file-input');
+        const fileInputAdd = document.getElementById('file-input-add');
+        
+        fileInput.addEventListener('change', function() { handleFiles(this.files); });
+        fileInputAdd.addEventListener('change', function() { handleFiles(this.files); });
+
+        const dropZone = document.getElementById('upload-area');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+        dropZone.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+
+        function showSection(sectionId) {
+            ['upload-area', 'settings-area', 'processing-area', 'result-area'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) { el.classList.add('hidden'); if(id === 'upload-area') el.classList.remove('flex'); }
+            });
+            const target = document.getElementById(sectionId);
+            if(target) {
+                target.classList.remove('hidden');
+                if (sectionId === 'upload-area') target.classList.add('flex');
+            }
+        }
+
+        function resetApp() {
+            photos = [];
+            loadedImages = [];
+            fileInput.value = "";
+            fileInputAdd.value = "";
+            document.getElementById('result-video').src = "";
+            document.getElementById('photo-grid').innerHTML = "";
+            showSection('upload-area');
+        }
+
+        async function handleFiles(files) {
+            const newFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+            if (newFiles.length === 0) return;
+            
+            photos = photos.concat(newFiles);
+            await renderGrid();
+            
+            if (photos.length > 0) {
+                showSection('settings-area');
+                updateEstimation();
+            }
+        }
+
+        async function renderGrid() {
+            const grid = document.getElementById('photo-grid');
+            grid.innerHTML = "";
+            loadedImages = [];
+
+            document.getElementById('info-count').textContent = photos.length;
+
+            for (let i = 0; i < photos.length; i++) {
+                const file = photos[i];
+                const url = URL.createObjectURL(file);
+                
+                // Pre-load image object
+                const img = new Image();
+                img.src = url;
+                await new Promise(r => img.onload = r);
+                loadedImages.push(img);
+
+                // UI Card
+                const card = document.createElement('div');
+                card.className = "relative bg-white rounded-lg border border-slate-200 p-2 shadow-sm flex flex-col items-center gap-2";
+                
+                const imgEl = document.createElement('img');
+                imgEl.src = url;
+                imgEl.className = "w-full h-20 object-cover rounded-md bg-slate-100";
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                deleteBtn.className = "absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs shadow-md hover:scale-110 transition-transform";
+                deleteBtn.onclick = () => {
+                    photos.splice(i, 1);
+                    renderGrid();
+                    updateEstimation();
+                    if(photos.length === 0) resetApp();
+                };
+
+                const inputTeks = document.createElement('input');
+                inputTeks.type = "text";
+                inputTeks.id = `text-input-${i}`;
+                inputTeks.placeholder = "Tulis teks...";
+                inputTeks.className = "w-full text-[10px] p-1.5 border border-slate-200 rounded focus:border-brand-blue outline-none text-center";
+
+                card.appendChild(imgEl);
+                card.appendChild(deleteBtn);
+                card.appendChild(inputTeks);
+                grid.appendChild(card);
+            }
+        }
+
+        // --- PENGATURAN UI ---
+        const durationSlider = document.getElementById('duration-slider');
+        durationSlider.addEventListener('input', () => {
+            document.getElementById('val-duration').textContent = durationSlider.value + " detik";
+            updateEstimation();
+        });
+
+        function setTransition(type) {
+            selectedTransition = type;
+            ['cut', 'fade'].forEach(t => document.getElementById(`trans-${t}`).classList.remove('active'));
+            document.getElementById(`trans-${type}`).classList.add('active');
+        }
+
+        function setResolution(res) {
+            selectedResolution = res;
+            [720, 1080].forEach(r => document.getElementById(`res-${r}`).classList.remove('active'));
+            document.getElementById(`res-${res}`).classList.add('active');
+        }
+
+        function updateEstimation() {
+            if(photos.length === 0) return;
+            const dur = parseInt(durationSlider.value);
+            const total = photos.length * dur;
+            
+            document.getElementById('info-estimate').innerHTML = `~${total} detik <span class="text-xs text-slate-500 font-normal" id="info-math">(${photos.length} foto x ${dur} detik)</span>`;
+        }
+
+        // --- DRAW IMAGE DENGAN OBJECT-FIT: COVER 16:9 ---
+        function drawImageCover(ctx, img, canvasW, canvasH) {
+            const imgRatio = img.width / img.height;
+            const canvasRatio = canvasW / canvasH;
+            let sx, sy, sw, sh;
+
+            if (imgRatio > canvasRatio) {
+                sh = img.height;
+                sw = img.height * canvasRatio;
+                sx = (img.width - sw) / 2;
+                sy = 0;
+            } else {
+                sw = img.width;
+                sh = img.width / canvasRatio;
+                sx = 0;
+                sy = (img.height - sh) / 2;
+            }
+            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvasW, canvasH);
+        }
+
+        // ==========================================
+        // RENDER SLIDESHOW (STRICTLY NO AUDIO)
+        // ==========================================
+        document.getElementById('create-btn').addEventListener('click', async () => {
+            if (photos.length === 0 || loadedImages.length !== photos.length) return;
+
+            showSection('processing-area');
+            const progressText = document.getElementById('progress-text');
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = '0%';
+            progressText.textContent = '0%';
+
+            // Setup Resolusi Canvas (16:9)
+            const targetH = selectedResolution;
+            const targetW = Math.round(targetH * (16 / 9)); // 1280x720 atau 1920x1080
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = targetW;
+            canvas.height = targetH;
+            const ctx = canvas.getContext('2d');
+
+            const durPerPhoto = parseInt(durationSlider.value);
+            const totalDurationSec = photos.length * durPerPhoto;
+
+            // Video Only Stream (Bisu total, tanpa AudioContext)
+            const videoOnlyStream = canvas.captureStream(30);
+
+            // Force WebM MIME Type
+            let mimeType = 'video/webm';
+            if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+                mimeType = 'video/webm;codecs=vp9,opus';
+            } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+                mimeType = 'video/webm;codecs=vp8,opus';
+            }
+
+            const recorderOptions = {
+                mimeType: mimeType,
+                videoBitsPerSecond: selectedResolution === 1080 ? 4500000 : 2500000
+            };
+
+            const recorder = new MediaRecorder(videoOnlyStream, recorderOptions);
+            const chunks = [];
+            recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            const recordingFinished = new Promise(resolve => recorder.onstop = () => resolve(new Blob(chunks, { type: mimeType })));
+
+            recorder.start();
+            
+            const startTime = Date.now();
+            let isResolved = false;
+
+            const renderFrame = () => {
+                if (isResolved) return;
+                
+                const currentTime = (Date.now() - startTime) / 1000;
+                
+                if (currentTime >= totalDurationSec) {
+                    // Akhiri proses
+                    if (!isResolved) {
+                        isResolved = true;
+                        progressBar.style.width = `100%`;
+                        progressText.textContent = `100%`;
+                        // Tunggu 500ms agar recorder aman tidak motong detik terakhir
+                        setTimeout(() => {
+                            try { recorder.stop(); } catch(e){}
+                        }, 500);
+                    }
+                    return;
+                }
+
+                // Kalkulasi Indeks Foto Saat Ini
+                const currentIndex = Math.floor(currentTime / durPerPhoto);
+                const localTime = currentTime % durPerPhoto;
+
+                // Background Hitam
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                if (currentIndex < loadedImages.length) {
+                    let alpha = 1.0;
+
+                    // Efek Fade
+                    if (selectedTransition === 'fade' && localTime < 0.5) {
+                        // Gambar foto sebelumnya utuh di background
+                        if (currentIndex > 0) {
+                            drawImageCover(ctx, loadedImages[currentIndex - 1], canvas.width, canvas.height);
+                        }
+                        // Fade in untuk foto saat ini (0.5 detik durasinya)
+                        alpha = localTime / 0.5;
+                    }
+
+                    ctx.globalAlpha = alpha;
+                    drawImageCover(ctx, loadedImages[currentIndex], canvas.width, canvas.height);
+                    ctx.globalAlpha = 1.0;
+
+                    // Gambar Teks Opsional
+                    const textInput = document.getElementById(`text-input-${currentIndex}`);
+                    if (textInput && textInput.value.trim() !== "") {
+                        const fontSize = selectedResolution === 1080 ? 48 : 32;
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // Background teks sedikit gelap
+                        ctx.fillRect(0, canvas.height - (fontSize * 2.5), canvas.width, fontSize * 2.5);
+                        
+                        ctx.fillStyle = 'white';
+                        ctx.font = `600 ${fontSize}px Poppins, sans-serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(textInput.value.trim(), canvas.width / 2, canvas.height - (fontSize * 1.2));
+                    }
+                }
+
+                // Progress Update
+                const percent = Math.min(100, Math.round((currentTime / totalDurationSec) * 100));
+                progressBar.style.width = `${percent}%`;
+                progressText.textContent = `${percent}%`;
+
+                requestAnimationFrame(renderFrame);
+            };
+
+            // Mulai loop animasi
+            requestAnimationFrame(renderFrame);
+
+            // Tunggu selesai dan tampilkan hasil
+            const finalBlob = await recordingFinished;
+            const finalUrl = URL.createObjectURL(finalBlob);
+
+            const resVideo = document.getElementById('result-video');
+            resVideo.src = finalUrl;
+
+            const finalSizeMB = finalBlob.size / (1024 * 1024);
+
+            document.getElementById('final-count').textContent = photos.length;
+            document.getElementById('final-size').textContent = finalSizeMB.toFixed(2) + " MB";
+            document.getElementById('final-duration').textContent = totalDurationSec + " detik";
+
+            // Setup Tombol Download
+            const dlBtn = document.getElementById('download-btn-foto');
+            dlBtn.href = finalUrl;
+            dlBtn.classList.remove('hidden');
+            dlBtn.style.display = 'block';
+
+            showSection('result-area');
+        });
+    </script>
+</body>
+</html>
